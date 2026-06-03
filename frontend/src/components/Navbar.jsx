@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import swiftLogo from '../assets/swift_logo.png'   // ← adjust path to match your project
 
 const NAV_LINKS = [
   { path: '/',          label: 'Home',      icon: 'bi-house-door' },
@@ -11,7 +12,7 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled]   = useState(false)
+  const [scrolled, setScrolled]     = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { pathname } = useLocation()
 
@@ -49,10 +50,11 @@ export default function Navbar() {
       {/* ── Top Navbar ── */}
       <nav className={`navbar-gov${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
         <div className="nav-container">
+
           {/* Logo */}
           <Link to="/" className="nav-logo" aria-label="SwiftStack Solutions — Home">
             <div className="logo-icon" aria-hidden="true">
-              <i className="bi bi-stack"></i>
+              <img src={swiftLogo} alt="SwiftStack logo" className="logo-img" />
             </div>
             <div className="logo-text">
               <span className="logo-main">SwiftStack</span>
@@ -101,14 +103,12 @@ export default function Navbar() {
       </nav>
 
       {/* ── Side Drawer (mobile) ── */}
-      {/* Overlay */}
       <div
         className={`drawer-overlay${drawerOpen ? ' open' : ''}`}
         onClick={closeDrawer}
         aria-hidden="true"
       />
 
-      {/* Drawer panel */}
       <aside
         id="side-drawer"
         className={`side-drawer${drawerOpen ? ' open' : ''}`}
@@ -120,7 +120,7 @@ export default function Navbar() {
         <div className="drawer-header">
           <Link to="/" className="drawer-logo" onClick={closeDrawer} aria-label="Home">
             <div className="drawer-logo-icon">
-              <i className="bi bi-stack" aria-hidden="true"></i>
+              <img src={swiftLogo} alt="SwiftStack logo" className="logo-img" />
             </div>
             <div className="drawer-logo-text">
               <span className="logo-main">SwiftStack</span>
