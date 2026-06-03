@@ -2,12 +2,39 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { newsletterAPI } from '../services/api'
 
+const FOOTER_LINKS = [
+  { to: '/about',     label: 'About Us' },
+  { to: '/services',  label: 'Our Services' },
+  { to: '/portfolio', label: 'Portfolio' },
+  { to: '/careers',   label: 'Careers' },
+  { to: '/blog',      label: 'Insights' },
+  { to: '/contact',   label: 'Contact Us' },
+]
+
+const SERVICE_LINKS = [
+  'Web Development',
+  'Mobile Applications',
+  'Cloud Solutions',
+  'AI & Machine Learning',
+  'Cybersecurity',
+  'IT Consulting',
+]
+
+const SOCIAL_LINKS = [
+  { icon: 'bi-linkedin',  href: '#', label: 'LinkedIn' },
+  { icon: 'bi-twitter-x', href: '#', label: 'X (Twitter)' },
+  { icon: 'bi-github',    href: '#', label: 'GitHub' },
+  { icon: 'bi-youtube',   href: '#', label: 'YouTube' },
+  { icon: 'bi-facebook',  href: '#', label: 'Facebook' },
+]
+
 export default function Footer() {
-  const [email, setEmail] = useState('')
-  const [subStatus, setSubStatus] = useState(null)
+  const [email, setEmail]       = useState('')
+  const [subStatus, setSubStatus] = useState(null) // null | 'loading' | 'success' | 'error'
 
   const handleSubscribe = async (e) => {
     e.preventDefault()
+    setSubStatus('loading')
     try {
       await newsletterAPI.subscribe({ email })
       setSubStatus('success')
@@ -18,208 +45,194 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-gov">
-      {/* Main Footer */}
+    <footer className="footer-gov" aria-label="Site footer">
+      {/* Main footer body */}
       <div className="footer-main">
         <div className="container">
           <div className="footer-grid">
-            {/* Brand */}
+
+            {/* ── Brand column ── */}
             <div className="footer-brand">
-              <div className="footer-logo">
-                <div className="footer-logo-icon">
+              <Link to="/" className="footer-logo" aria-label="SwiftStack Solutions — Home">
+                <div className="footer-logo-icon" aria-hidden="true">
                   <i className="bi bi-stack"></i>
                 </div>
                 <div>
-                  <div className="footer-logo-name">SwiftStack Solutions</div>
-                  <div className="footer-logo-tag">Building Tomorrow, Today</div>
+                  <span className="footer-logo-name">SwiftStack Solutions</span>
+                  <span className="footer-logo-tag">Building Tomorrow, Today</span>
                 </div>
-              </div>
+              </Link>
+
               <p className="footer-desc">
-                A leading software development company delivering enterprise-grade digital solutions across Africa and beyond.
+                A leading software development company delivering enterprise-grade digital solutions
+                across Africa and beyond. ISO&nbsp;27001 certified, 97% on-time delivery.
               </p>
-              <div className="footer-socials">
-                {[
-                  ['bi-linkedin', '#'],
-                  ['bi-twitter-x', '#'],
-                  ['bi-github', '#'],
-                  ['bi-youtube', '#'],
-                  ['bi-facebook', '#'],
-                ].map(([icon, href]) => (
-                  <a key={icon} href={href} target="_blank" rel="noreferrer" className="social-icon">
-                    <i className={`bi ${icon}`}></i>
+
+              {/* Trust badges */}
+              <div className="footer-badges">
+                <span className="footer-badge">
+                  <i className="bi bi-shield-check" aria-hidden="true"></i>
+                  ISO 27001
+                </span>
+                <span className="footer-badge">
+                  <i className="bi bi-award" aria-hidden="true"></i>
+                  Best Tech Firm EA&nbsp;'24
+                </span>
+                <span className="footer-badge">
+                  <i className="bi bi-star-fill" aria-hidden="true"></i>
+                  5-Star Rated
+                </span>
+              </div>
+
+              {/* Socials */}
+              <div className="footer-socials" role="list" aria-label="Social media links">
+                {SOCIAL_LINKS.map(({ icon, href, label }) => (
+                  <a
+                    key={icon}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="social-icon"
+                    role="listitem"
+                    aria-label={label}
+                  >
+                    <i className={`bi ${icon}`} aria-hidden="true"></i>
                   </a>
                 ))}
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* ── Quick Links ── */}
             <div className="footer-col">
-              <h4 className="footer-col-title">Quick Links</h4>
-              {[
-                ['/about', 'About Us'],
-                ['/services', 'Our Services'],
-                ['/portfolio', 'Portfolio'],
-                ['/careers', 'Careers'],
-                ['/blog', 'Insights'],
-                ['/contact', 'Contact Us'],
-              ].map(([to, label]) => (
-                <Link key={to} to={to} className="footer-link">
-                  <i className="bi bi-chevron-right"></i> {label}
-                </Link>
-              ))}
+              <h3 className="footer-col-title">Quick Links</h3>
+              <nav className="footer-links-list" aria-label="Quick links">
+                {FOOTER_LINKS.map(({ to, label }) => (
+                  <Link key={to} to={to} className="footer-link">
+                    <i className="bi bi-chevron-right" aria-hidden="true"></i>
+                    {label}
+                  </Link>
+                ))}
+              </nav>
             </div>
 
-            {/* Services */}
+            {/* ── Services ── */}
             <div className="footer-col">
-              <h4 className="footer-col-title">Services</h4>
-              {[
-                'Web Development',
-                'Mobile Applications',
-                'Cloud Solutions',
-                'AI & Machine Learning',
-                'Cybersecurity',
-                'IT Consulting',
-              ].map((s) => (
-                <span key={s} className="footer-link static">
-                  <i className="bi bi-dot"></i> {s}
-                </span>
-              ))}
+              <h3 className="footer-col-title">Services</h3>
+              <div className="footer-links-list">
+                {SERVICE_LINKS.map((s) => (
+                  <span key={s} className="footer-link static">
+                    <i className="bi bi-dot" aria-hidden="true"></i>
+                    {s}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Contact & Newsletter */}
+            {/* ── Contact & Newsletter ── */}
             <div className="footer-col">
-              <h4 className="footer-col-title">Contact</h4>
-              <div className="footer-contact-item">
-                <i className="bi bi-geo-alt-fill"></i>
-                <span>Westlands Business Park,<br />Nairobi, Kenya</span>
-              </div>
-              <div className="footer-contact-item">
-                <i className="bi bi-telephone-fill"></i>
-                <span>+254 700 000 000</span>
-              </div>
-              <div className="footer-contact-item">
-                <i className="bi bi-envelope-fill"></i>
-                <span>info@swiftstacksolutions.co.ke</span>
-              </div>
+              <h3 className="footer-col-title">Contact</h3>
 
-              <h4 className="footer-col-title" style={{ marginTop: '1.5rem' }}>Newsletter</h4>
+              <address style={{ fontStyle: 'normal' }}>
+                <div className="footer-contact-item">
+                  <i className="bi bi-geo-alt-fill" aria-hidden="true"></i>
+                  <span>Westlands Business Park,<br />Nairobi, Kenya</span>
+                </div>
+                <div className="footer-contact-item">
+                  <i className="bi bi-telephone-fill" aria-hidden="true"></i>
+                  <a href="tel:+254700000000" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    +254 700 000 000
+                  </a>
+                </div>
+                <div className="footer-contact-item">
+                  <i className="bi bi-envelope-fill" aria-hidden="true"></i>
+                  <a href="mailto:info@swiftstacksolutions.co.ke" style={{ color: 'inherit', textDecoration: 'none' }}>
+                    info@swiftstacksolutions.co.ke
+                  </a>
+                </div>
+                <div className="footer-contact-item">
+                  <i className="bi bi-clock-fill" aria-hidden="true"></i>
+                  <span>Mon – Fri, 8:00 AM – 6:00 PM EAT</span>
+                </div>
+              </address>
+
+              {/* Newsletter */}
+              <span className="footer-newsletter-label">Stay Updated</span>
+
               {subStatus === 'success' ? (
-                <div className="alert-success" style={{ fontSize: '0.85rem' }}>
-                  <i className="bi bi-check-circle-fill"></i> Subscribed!
+                <div className="alert-success" style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}>
+                  <i className="bi bi-check-circle-fill" aria-hidden="true"></i>
+                  You're subscribed. Welcome aboard!
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="footer-newsletter">
-                  <input
-                    type="email" required
-                    value={email} onChange={e => setEmail(e.target.value)}
-                    placeholder="Your email address"
-                    className="newsletter-input"
-                  />
-                  <button type="submit" className="newsletter-btn">
-                    <i className="bi bi-send-fill"></i>
-                  </button>
-                </form>
+                <>
+                  <form
+                    onSubmit={handleSubscribe}
+                    className="footer-newsletter"
+                    aria-label="Newsletter subscription"
+                  >
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Your email address"
+                      className="newsletter-input"
+                      aria-label="Email address for newsletter"
+                      disabled={subStatus === 'loading'}
+                    />
+                    <button
+                      type="submit"
+                      className="newsletter-btn"
+                      disabled={subStatus === 'loading'}
+                      aria-label="Subscribe to newsletter"
+                    >
+                      {subStatus === 'loading'
+                        ? <i className="bi bi-hourglass-split" aria-hidden="true"></i>
+                        : <><i className="bi bi-send-fill" aria-hidden="true"></i> Subscribe</>
+                      }
+                    </button>
+                  </form>
+
+                  {subStatus === 'error' && (
+                    <p className="form-error-msg" style={{ marginTop: '0.4rem' }}>
+                      <i className="bi bi-exclamation-circle" aria-hidden="true"></i>
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
+
+                  <p className="newsletter-hint">
+                    <i className="bi bi-lock-fill" aria-hidden="true"></i>
+                    No spam, ever. Unsubscribe anytime.
+                  </p>
+                </>
               )}
             </div>
+
           </div>
         </div>
       </div>
 
-      {/* Footer Bottom */}
+      {/* Footer bottom bar */}
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
-          <span>© {new Date().getFullYear()} SwiftStack Solutions Ltd. All rights reserved.</span>
-          <div className="footer-bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
+          <div className="footer-bottom-left">
+            <span>
+              © {new Date().getFullYear()} SwiftStack Solutions Ltd.
+              <span style={{ marginLeft: '0.35rem' }}>All rights reserved.</span>
+            </span>
           </div>
+
+          <nav className="footer-bottom-links" aria-label="Legal links">
+            <a href="#">Privacy Policy</a>
+            <span className="footer-bottom-sep" aria-hidden="true">·</span>
+            <a href="#">Terms of Service</a>
+            <span className="footer-bottom-sep" aria-hidden="true">·</span>
+            <a href="#">Cookie Policy</a>
+            <span className="footer-bottom-sep" aria-hidden="true">·</span>
+            <a href="#">Accessibility</a>
+          </nav>
         </div>
       </div>
-
-      <style>{`
-        .footer-gov { background: var(--color-charcoal); color: rgba(255,255,255,0.75); }
-        .footer-main { padding: 4rem 0 3rem; }
-        .footer-grid {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr 1.5fr;
-          gap: 3rem;
-        }
-        .footer-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
-        .footer-logo-icon {
-          width: 42px; height: 42px; background: var(--color-gold);
-          border-radius: var(--radius-sm); display: flex; align-items: center;
-          justify-content: center; font-size: 1.3rem; color: var(--color-navy-dark);
-          flex-shrink: 0;
-        }
-        .footer-logo-name { font-family: var(--font-heading); color: var(--color-white); font-size: 1rem; font-weight: 700; }
-        .footer-logo-tag { font-size: 0.65rem; color: var(--color-gold); letter-spacing: 2px; text-transform: uppercase; }
-        .footer-desc { font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.25rem; }
-        .footer-socials { display: flex; gap: 0.6rem; }
-        .social-icon {
-          width: 36px; height: 36px; border-radius: var(--radius-sm);
-          background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7);
-          display: flex; align-items: center; justify-content: center;
-          text-decoration: none; font-size: 0.95rem;
-          transition: all var(--transition-fast);
-        }
-        .social-icon:hover { background: var(--color-gold); color: var(--color-navy-dark); }
-        .footer-col-title {
-          font-family: var(--font-heading); color: var(--color-white);
-          font-size: 0.95rem; font-weight: 700; margin-bottom: 1rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 2px solid var(--color-gold);
-          display: inline-block;
-        }
-        .footer-link, .footer-link.static {
-          display: flex; align-items: center; gap: 0.3rem;
-          color: rgba(255,255,255,0.65); text-decoration: none;
-          font-size: 0.875rem; padding: 0.25rem 0;
-          transition: color var(--transition-fast);
-        }
-        .footer-link:hover { color: var(--color-gold); }
-        .footer-contact-item {
-          display: flex; align-items: flex-start; gap: 0.6rem;
-          font-size: 0.875rem; margin-bottom: 0.75rem; color: rgba(255,255,255,0.65);
-        }
-        .footer-contact-item i { color: var(--color-gold); margin-top: 2px; flex-shrink: 0; }
-        .footer-newsletter { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-        .newsletter-input {
-          flex: 1; padding: 0.6rem 0.8rem;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.2);
-          border-radius: var(--radius-sm); color: var(--color-white);
-          font-size: 0.85rem; outline: none;
-        }
-        .newsletter-input:focus { border-color: var(--color-gold); }
-        .newsletter-btn {
-          background: var(--color-gold); color: var(--color-navy-dark);
-          border: none; border-radius: var(--radius-sm);
-          padding: 0 0.9rem; cursor: pointer; font-size: 1rem;
-          transition: background var(--transition-fast);
-        }
-        .newsletter-btn:hover { background: var(--color-gold-dark); }
-        .footer-bottom {
-          background: var(--color-navy-dark);
-          border-top: 2px solid var(--color-gold);
-          padding: 1rem 0;
-        }
-        .footer-bottom-inner {
-          display: flex; justify-content: space-between; align-items: center;
-          font-size: 0.8rem; color: rgba(255,255,255,0.5);
-          flex-wrap: wrap; gap: 0.5rem;
-        }
-        .footer-bottom-links { display: flex; gap: 1.5rem; }
-        .footer-bottom-links a { color: rgba(255,255,255,0.5); text-decoration: none; }
-        .footer-bottom-links a:hover { color: var(--color-gold); }
-        @media (max-width: 900px) {
-          .footer-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-          .footer-grid { grid-template-columns: 1fr; }
-          .footer-bottom-inner { flex-direction: column; text-align: center; }
-        }
-      `}</style>
     </footer>
   )
 }
