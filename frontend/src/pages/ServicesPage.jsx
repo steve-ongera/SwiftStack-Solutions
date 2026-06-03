@@ -18,7 +18,7 @@ const DEMO_SERVICES = [
   { id:9, title:'ERP & CRM Solutions', icon_class:'bi-diagram-3', short_description:'Custom Odoo, Salesforce implementations, and bespoke ERP systems.', technologies:[], tier:'enterprise' },
 ]
  
-export function ServicesPage() {
+export default function  ServicesPage() {
   const [services, setServices] = useState([])
   useEffect(() => {
     servicesAPI.getAll().then(r => setServices(r.data.results || r.data)).catch(() => setServices(DEMO_SERVICES))

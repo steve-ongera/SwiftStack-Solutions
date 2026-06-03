@@ -1,6 +1,7 @@
 // ─────────────────────────────────────────────
 // CareersPage.jsx
 // ─────────────────────────────────────────────
+import { useState, useEffect } from 'react'
 import { careersAPI } from '../services/api'
  
 const DEMO_JOBS = [
@@ -10,7 +11,7 @@ const DEMO_JOBS = [
   { id:4, title:'Machine Learning Engineer', job_type:'full_time', level:'senior', location:'Nairobi, Kenya', is_remote:true, salary_min:180000, salary_max:280000, salary_currency:'KES', description:'Build AI products.', requirements:'Python & TensorFlow\nMLOps experience\nPublications a plus', deadline:'2024-05-01', slug:'ml-engineer' },
 ]
  
-export function CareersPage() {
+export default function  CareersPage() {
   const [jobs, setJobs] = useState([])
   const [selected, setSelected] = useState(null)
   const [form, setForm] = useState({ first_name:'', last_name:'', email:'', phone:'', cover_letter:'' })

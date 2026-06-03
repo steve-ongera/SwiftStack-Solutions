@@ -1,7 +1,10 @@
 // ─────────────────────────────────────────────
 // NotFoundPage.jsx
 // ─────────────────────────────────────────────
-export function NotFoundPage() {
+import { useState, useEffect } from 'react'
+
+
+export default function  NotFoundPage() {
   return (
     <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', minHeight:'60vh', textAlign:'center', padding:'4rem 1rem' }}>
       <div style={{ fontSize:'5rem', color:'var(--color-gold)', marginBottom:'1rem' }}>

@@ -1,15 +1,28 @@
 // ─────────────────────────────────────────────
 // BlogPage.jsx
 // ─────────────────────────────────────────────
-import { blogAPI } from '../services/api'
- 
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import HeroSection from '../components/HeroSection'
+import { ServiceCard } from '../components/Cards'
+import { TestimonialCard } from '../components/Cards'
+import { StatsBanner } from '../components/Cards'
+import { 
+  servicesAPI,
+  testimonialsAPI,
+  statsAPI,
+  portfolioAPI,
+  blogAPI
+} from '../services/api'
+
+
 const DEMO_POSTS = [
   { id:1, title:'Building Scalable APIs with Django REST Framework', slug:'scalable-apis-django', excerpt:'A deep dive into best practices for high-performance REST APIs.', cover_image:'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=70', published_at:'2024-01-15', read_time_minutes:8, category:{ name:'Engineering', color_hex:'#1a3c6e' } },
   { id:2, title:'React 18 Concurrent Features: A Practical Guide', slug:'react-18-concurrent', excerpt:'How to take advantage of React 18s concurrent rendering model.', cover_image:'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&q=70', published_at:'2024-01-28', read_time_minutes:6, category:{ name:'Frontend', color_hex:'#0277bd' } },
   { id:3, title:'Digital Transformation in African Healthcare', slug:'digital-health-africa', excerpt:'Case studies and lessons from deploying health-tech across East Africa.', cover_image:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=70', published_at:'2024-02-05', read_time_minutes:10, category:{ name:'Industry Insights', color_hex:'#2e7d32' } },
 ]
  
-export function BlogPage() {
+export default function BlogPage() {
   const [posts, setPosts] = useState([])
   useEffect(() => {
     blogAPI.getPosts().then(r => setPosts(r.data.results || r.data)).catch(() => setPosts(DEMO_POSTS))

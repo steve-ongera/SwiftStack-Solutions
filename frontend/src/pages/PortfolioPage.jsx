@@ -1,8 +1,10 @@
 // ─────────────────────────────────────────────
 // PortfolioPage.jsx
 // ─────────────────────────────────────────────
+import { useState, useEffect } from 'react'
 import { portfolioAPI } from '../services/api'
- 
+
+
 const DEMO_PROJECTS = [
   { id:1, title:'FinTrack Pro', client_name:'Kenya Finance Corp', client_industry:'Finance', short_description:'Real-time banking analytics dashboard for a Kenyan microfinance institution serving 50,000+ customers.', cover_image:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=70', status:'completed', technologies:[] },
   { id:2, title:'AgriConnect Platform', client_name:'AgriTech Kenya', client_industry:'Agriculture', short_description:'IoT-powered platform connecting 10,000 smallholder farmers to commodity markets and buyers.', cover_image:'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=70', status:'featured', technologies:[] },
@@ -12,7 +14,7 @@ const DEMO_PROJECTS = [
   { id:6, title:'LogiTrack', client_name:'Swift Logistics', client_industry:'Logistics', short_description:'Fleet management and real-time cargo tracking system for 500+ vehicles.', cover_image:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=70', status:'completed', technologies:[] },
 ]
  
-export function PortfolioPage() {
+export default function  PortfolioPage() {
   const [projects, setProjects] = useState([])
   const [filter, setFilter] = useState('all')
   useEffect(() => {

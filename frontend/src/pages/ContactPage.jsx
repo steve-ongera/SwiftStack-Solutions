@@ -1,9 +1,10 @@
 // ─────────────────────────────────────────────
 // ContactPage.jsx
 // ─────────────────────────────────────────────
+import { useState, useEffect } from 'react'
 import { contactAPI } from '../services/api'
  
-export function ContactPage() {
+export default function  ContactPage() {
   const [form, setForm] = useState({ full_name:'', email:'', phone:'', company:'', inquiry_type:'general', subject:'', message:'', budget_range:'' })
   const [status, setStatus] = useState(null)
  
