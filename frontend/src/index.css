@@ -478,7 +478,7 @@ mark    { background: var(--color-gold-pale); color: var(--color-navy-dark); bor
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  color: rgba(255,255,255,0.55);
+  
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.5px;
