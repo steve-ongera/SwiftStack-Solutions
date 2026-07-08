@@ -7,25 +7,25 @@ import { servicesAPI, testimonialsAPI, statsAPI, portfolioAPI } from '../service
 /* ── Demo data (used when API is unavailable) ── */
 
 const DEMO_SERVICES = [
-  { id:1, title:'Web Development',    icon_class:'bi-globe2',       short_description:'Enterprise web applications built with React, Vue, and Django for scale and resilience.',   technologies:[] },
-  { id:2, title:'Mobile Applications',icon_class:'bi-phone',        short_description:'Native-quality iOS & Android apps using React Native and Flutter — delivered on schedule.',   technologies:[] },
-  { id:3, title:'Cloud Solutions',    icon_class:'bi-cloud-arrow-up',short_description:'AWS, Azure & GCP architecture, cost optimisation, migration, and managed operations.',      technologies:[] },
-  { id:4, title:'AI & Machine Learning',icon_class:'bi-robot',      short_description:'Custom ML models, NLP pipelines, and intelligent process-automation for your industry.',      technologies:[] },
-  { id:5, title:'Cybersecurity',      icon_class:'bi-shield-lock',  short_description:'Vulnerability assessments, penetration testing, compliance audits, and 24/7 SOC services.', technologies:[] },
-  { id:6, title:'IT Consulting',      icon_class:'bi-lightbulb',    short_description:'Digital strategy, technology roadmaps, vendor selection, and digital transformation advisory.', technologies:[] },
+  { id:1, title:'Web Development',      icon_class:'bi-globe2',        short_description:'Enterprise web applications built with React, Vue, and Django for scale and resilience.',    technologies:[] },
+  { id:2, title:'Mobile Applications',  icon_class:'bi-phone',         short_description:'Native-quality iOS & Android apps using React Native and Flutter — delivered on schedule.',  technologies:[] },
+  { id:3, title:'Cloud Solutions',      icon_class:'bi-cloud-arrow-up',short_description:'AWS, Azure & GCP architecture, cost optimisation, migration, and managed operations.',       technologies:[] },
+  { id:4, title:'AI & Machine Learning',icon_class:'bi-robot',         short_description:'Custom ML models, NLP pipelines, and intelligent process-automation for your industry.',     technologies:[] },
+  { id:5, title:'Cybersecurity',        icon_class:'bi-shield-lock',   short_description:'Vulnerability assessments, penetration testing, compliance audits, and 24/7 SOC services.',  technologies:[] },
+  { id:6, title:'IT Consulting',        icon_class:'bi-lightbulb',     short_description:'Digital strategy, technology roadmaps, vendor selection, and digital transformation advisory.',technologies:[] },
 ]
 
 const DEMO_PROJECTS = [
-  { id:1, title:'FinTrack Pro',  client_industry:'FinTech',     short_description:'Real-time banking dashboard and analytics platform for a Kenyan microfinance institution serving 200k users.',    cover_image:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75', technologies:[] },
-  { id:2, title:'AgriConnect',   client_industry:'AgriTech',    short_description:'End-to-end IoT platform connecting 10,000+ smallholder farmers to commodity markets and weather data.', cover_image:'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=700&q=75', technologies:[] },
-  { id:3, title:'HealthHub',     client_industry:'HealthTech',  short_description:'Telemedicine, EHR, and appointment management system deployed across a network of 5 regional hospitals.',       cover_image:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=75', technologies:[] },
+  { id:1, title:'FinTrack Pro', client_industry:'FinTech',    short_description:'Real-time banking dashboard and analytics platform for a Kenyan microfinance institution serving 200k users.',   cover_image:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75', technologies:[] },
+  { id:2, title:'AgriConnect',  client_industry:'AgriTech',   short_description:'End-to-end IoT platform connecting 10,000+ smallholder farmers to commodity markets and weather data.',cover_image:'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=700&q=75', technologies:[] },
+  { id:3, title:'HealthHub',    client_industry:'HealthTech', short_description:'Telemedicine, EHR, and appointment management system deployed across a network of 5 regional hospitals.',      cover_image:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=75', technologies:[] },
 ]
 
 const WHY_POINTS = [
-  { icon:'bi-award',           title:'ISO 27001 Certified',    desc:'Enterprise-grade information security standards built into every engagement.' },
-  { icon:'bi-clock-history',   title:'97% On-Time Delivery',   desc:'Rigorous project governance ensures milestones are hit, consistently.' },
-  { icon:'bi-headset',         title:'24 / 7 Support',         desc:'Round-the-clock technical assistance — from our engineers, not a chatbot.' },
-  { icon:'bi-graph-up-arrow',  title:'Scalable Architecture',  desc:'Systems designed to grow 10x with your business without a rewrite.' },
+  { icon:'bi-award',          title:'ISO 27001 Certified',  desc:'Enterprise-grade information security standards built into every engagement.' },
+  { icon:'bi-clock-history',  title:'97% On-Time Delivery', desc:'Rigorous project governance ensures milestones are hit, consistently.' },
+  { icon:'bi-headset',        title:'24 / 7 Support',       desc:'Round-the-clock technical assistance — from our engineers, not a chatbot.' },
+  { icon:'bi-graph-up-arrow', title:'Scalable Architecture',desc:'Systems designed to grow 10x with your business without a rewrite.' },
 ]
 
 /* ── Component ── */
@@ -50,15 +50,16 @@ export default function HomePage() {
     })
   }, [])
 
-  const displayServices = services.length  ? services  : DEMO_SERVICES
-  const displayProjects = projects.length  ? projects  : DEMO_PROJECTS
+  const displayServices = services.length ? services : DEMO_SERVICES
+  const displayProjects = projects.length ? projects : DEMO_PROJECTS
 
   return (
     <main>
-      {/* Hero */}
+
+      {/* ── Hero Carousel ── */}
       <HeroSection />
 
-      {/* Stats Banner */}
+      {/* ── Stats Banner ── */}
       <StatsBanner stats={stats} />
 
       {/* ── Services ── */}
@@ -91,7 +92,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <div style={{ textAlign:'center', marginTop:'3rem' }}>
             <Link to="/services" className="btn-primary-gov btn-lg">
               <i className="bi bi-arrow-right-circle" aria-hidden="true"></i>
               Explore All Services
@@ -122,7 +123,7 @@ export default function HomePage() {
               >
                 <div
                   className="project-card-img"
-                  style={{ backgroundImage: `url(${p.cover_image})` }}
+                  style={{ backgroundImage:`url(${p.cover_image})` }}
                   role="img"
                   aria-label={`${p.title} project cover`}
                 >
@@ -140,7 +141,7 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div style={{ textAlign: 'center', marginTop: '3rem' }}>
+          <div style={{ textAlign:'center', marginTop:'3rem' }}>
             <Link to="/portfolio" className="btn-outline-gov btn-lg">
               <i className="bi bi-grid-3x3-gap" aria-hidden="true"></i>
               View Full Portfolio
@@ -153,10 +154,11 @@ export default function HomePage() {
       <section
         className="section-padding bg-off-white"
         aria-labelledby="why-heading"
-        style={{ overflow: 'hidden' }}
+        style={{ overflow:'hidden' }}
       >
         <div className="container">
           <div className="why-us-grid">
+
             {/* Content side */}
             <div className="animate-slide-in">
               <span className="section-label">Why SwiftStack</span>
@@ -234,47 +236,15 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ── Trusted Partners strip (logos placeholder) ── */}
+      {/* ── Trusted Partners strip ── */}
       <section className="section-padding-sm bg-off-white" aria-label="Trusted by">
         <div className="container">
-          <p
-            style={{
-              textAlign: 'center',
-              fontFamily: 'var(--font-label)',
-              fontSize: '0.72rem',
-              fontWeight: 700,
-              letterSpacing: '3px',
-              textTransform: 'uppercase',
-              color: 'var(--color-mid-gray)',
-              marginBottom: '1.75rem',
-            }}
-          >
+          <p className="trusted-label">
             Trusted by Leading Organisations Across Africa
           </p>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '3rem',
-              flexWrap: 'wrap',
-              opacity: 0.45,
-              filter: 'grayscale(1)',
-            }}
-          >
-            {['KCB Group', 'Safaricom', 'KEMRI', 'KenGen', 'KTDA', 'Nation Media'].map((name) => (
-              <span
-                key={name}
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '1.05rem',
-                  fontWeight: 700,
-                  color: 'var(--color-navy)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {name}
-              </span>
+          <div className="trusted-logos">
+            {['KCB Group','Safaricom','KEMRI','KenGen','KTDA','Nation Media'].map((name) => (
+              <span key={name} className="trusted-logo-name">{name}</span>
             ))}
           </div>
         </div>
@@ -299,6 +269,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
     </main>
   )
 }
