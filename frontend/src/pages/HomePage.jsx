@@ -2,7 +2,7 @@
 // HomePage.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import HeroSection from '../components/HeroSection'
 import { ServiceCard, TestimonialCard, StatsBanner } from '../components/Cards'
@@ -29,6 +29,9 @@ export default function HomePage() {
   const [testimonials, setTestimonials] = useState([])
   const [stats,        setStats]        = useState([])
 
+  // Which project category tab is currently selected. 'all' shows everything.
+  const [activeFilter, setActiveFilter] = useState('all')
+
   useEffect(() => {
     Promise.allSettled([
       servicesAPI.getAll({ is_featured: true }),
@@ -45,6 +48,24 @@ export default function HomePage() {
 
   const displayServices = services.length ? services : DEMO_SERVICES
   const displayProjects = projects.length ? projects : DEMO_PROJECTS
+
+  // Build the filter tabs directly from whatever industries are actually
+  // present in the loaded projects (API or demo data), instead of a
+  // hardcoded list that never matched the real project categories — that
+  // mismatch is why the tabs previously did nothing when clicked.
+  const projectCategories = useMemo(() => {
+    const industries = displayProjects
+      .map((p) => p.client_industry)
+      .filter(Boolean)
+    return ['All', ...Array.from(new Set(industries))]
+  }, [displayProjects])
+
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === 'all') return displayProjects
+    return displayProjects.filter(
+      (p) => (p.client_industry || '').toLowerCase() === activeFilter
+    )
+  }, [displayProjects, activeFilter])
 
   return (
     <main>
@@ -231,20 +252,39 @@ export default function HomePage() {
 
           <div className="row">
             <div className="col-12">
+              {/* Filter tabs — categories are derived from the real project
+                  data above, and each radio now actually drives
+                  `activeFilter`, which is what filters the grid below.
+                  Previously these were static labels with no onChange, so
+                  clicking them changed nothing. */}
               <div className="shuffle-btn-group">
-                <label className="active" htmlFor="all">
-                  <input type="radio" name="shuffle-filter" id="all" value="all" defaultChecked />Show All
-                </label>
-                {['Commercial', 'Education', 'Government', 'Infrastructure', 'Residential', 'Healthcare'].map(cat => (
-                  <label key={cat} htmlFor={cat.toLowerCase()}>
-                    <input type="radio" name="shuffle-filter" id={cat.toLowerCase()} value={cat.toLowerCase()} />{cat}
-                  </label>
-                ))}
+                {projectCategories.map((cat) => {
+                  const value = cat.toLowerCase()
+                  return (
+                    <label
+                      key={cat}
+                      htmlFor={`project-filter-${value}`}
+                      className={activeFilter === value ? 'active' : ''}
+                    >
+                      <input
+                        type="radio"
+                        name="shuffle-filter"
+                        id={`project-filter-${value}`}
+                        value={value}
+                        checked={activeFilter === value}
+                        onChange={() => setActiveFilter(value)}
+                      />
+                      {cat}
+                    </label>
+                  )
+                })}
               </div>
 
-              <div className="row shuffle-wrapper">
-                {displayProjects.map((p, i) => (
-                  <div key={p.id} className="col-lg-4 col-md-6 shuffle-item" data-groups='["all"]'>
+              {/* key={activeFilter} remounts the row on tab change so the
+                  fade-in below replays for the newly filtered set. */}
+              <div className="row shuffle-wrapper" key={activeFilter}>
+                {filteredProjects.map((p) => (
+                  <div key={p.id} className="col-lg-4 col-md-6 shuffle-item">
                     <div className="project-img-container">
                       <div className="gallery-popup">
                         <img className="img-fluid" src={p.cover_image} alt={p.title} />
@@ -261,6 +301,12 @@ export default function HomePage() {
                     </div>
                   </div>
                 ))}
+
+                {filteredProjects.length === 0 && (
+                  <div className="col-12 text-center py-4">
+                    <p className="mb-0">No projects found in this category yet.</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -271,6 +317,20 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <style>{`
+          .shuffle-btn-group label { cursor: pointer; }
+          @keyframes shuffleFadeIn {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+          }
+          .shuffle-item {
+            animation: shuffleFadeIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .shuffle-item { animation: none; }
+          }
+        `}</style>
       </section>
 
       {/* ── Testimonials & Clients ── */}

@@ -112,7 +112,10 @@ export function TestimonialCard({ testimonial }) {
         marginBottom: '30px',
         borderRadius: '0',
         boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
-        borderLeft: '3px solid #ffb600',
+        // Accent moved off border-left to a top rule, matching the rest of
+        // the theme (blockquotes/widget titles) which no longer use
+        // decorative border-left anywhere.
+        borderTop: '3px solid #ffb600',
         transition: 'all 0.3s ease'
       }}
       onMouseEnter={(e) => {
