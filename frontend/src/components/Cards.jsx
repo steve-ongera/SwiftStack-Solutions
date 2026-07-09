@@ -1,123 +1,202 @@
 // ─────────────────────────────────────────────
-// ServiceCard.jsx
+// ServiceCard.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
 
 export function ServiceCard({ service }) {
   return (
-    <div className="card-gov service-card">
-      <div className="service-icon-wrap">
+    <div 
+      className="ts-service-box" 
+      style={{
+        background: '#fff',
+        padding: '30px 25px',
+        marginBottom: '30px',
+        borderRadius: '0',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+        transition: 'all 0.3s ease',
+        borderBottom: '3px solid transparent'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
+        e.currentTarget.style.borderBottomColor = '#ffb600'
+        e.currentTarget.style.transform = 'translateY(-5px)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)'
+        e.currentTarget.style.borderBottomColor = 'transparent'
+        e.currentTarget.style.transform = 'translateY(0)'
+      }}
+    >
+      <div 
+        className="ts-service-icon" 
+        style={{
+          width: '60px',
+          height: '60px',
+          background: 'rgba(255, 182, 0, 0.1)',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '20px',
+          fontSize: '1.8rem',
+          color: '#ffb600',
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = '#ffb600'
+          e.currentTarget.style.color = '#fff'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 182, 0, 0.1)'
+          e.currentTarget.style.color = '#ffb600'
+        }}
+      >
         <i className={`bi ${service.icon_class || 'bi-code-slash'}`}></i>
       </div>
-      <h3 className="service-card-title">{service.title}</h3>
-      <p className="service-card-desc">{service.short_description}</p>
-      {service.technologies?.length > 0 && (
-        <div className="service-tech-tags">
-          {service.technologies.slice(0, 4).map(t => (
-            <span key={t.id} className="badge-gov badge-navy">{t.name}</span>
-          ))}
-        </div>
-      )}
-      <style>{`
-        .service-card { cursor: default; }
-        .service-icon-wrap {
-          width: 56px; height: 56px;
-          background: rgba(26,60,110,0.08);
-          border-radius: var(--radius-md);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 1.6rem; color: var(--color-navy);
-          margin-bottom: 1.25rem;
-          transition: all var(--transition-base);
-        }
-        .service-card:hover .service-icon-wrap {
-          background: var(--color-navy); color: var(--color-gold);
-        }
-        .service-card-title {
-          font-size: 1.1rem; margin-bottom: 0.6rem;
-        }
-        .service-card-desc {
-          font-size: 0.9rem; color: var(--color-dark-gray);
-          line-height: 1.65; margin-bottom: 1.25rem;
-        }
-        .service-tech-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-      `}</style>
+      <div className="ts-service-box-content">
+        <h3 className="service-box-title" style={{
+          fontSize: '18px',
+          fontWeight: 700,
+          color: '#212121',
+          marginBottom: '10px',
+          textTransform: 'uppercase',
+          fontFamily: '"Montserrat", sans-serif'
+        }}>
+          {service.title}
+        </h3>
+        <p style={{
+          fontSize: '14px',
+          color: '#555',
+          lineHeight: '24px',
+          marginBottom: '15px',
+          fontFamily: '"Open Sans", sans-serif'
+        }}>
+          {service.short_description}
+        </p>
+        {service.technologies?.length > 0 && (
+          <div className="service-tech-tags" style={{
+            display: 'flex',
+            gap: '5px',
+            flexWrap: 'wrap'
+          }}>
+            {service.technologies.slice(0, 4).map(t => (
+              <span key={t.id} style={{
+                background: '#f0f0f0',
+                color: '#333',
+                padding: '3px 10px',
+                fontSize: '11px',
+                borderRadius: '3px',
+                fontWeight: 600,
+                fontFamily: '"Open Sans", sans-serif'
+              }}>
+                {t.name}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
 
 // ─────────────────────────────────────────────
-// TestimonialCard.jsx
+// TestimonialCard.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
 
 export function TestimonialCard({ testimonial }) {
   return (
-    <div className="testimonial-card">
-      <div className="testimonial-stars">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <i
-            key={i}
-            className={`bi ${i < testimonial.rating ? 'bi-star-fill' : 'bi-star'}`}
-          ></i>
-        ))}
+    <div 
+      className="quote-item" 
+      style={{
+        background: '#fff',
+        padding: '30px',
+        marginBottom: '30px',
+        borderRadius: '0',
+        boxShadow: '0 2px 5px rgba(0,0,0,0.05)',
+        borderLeft: '3px solid #ffb600',
+        transition: 'all 0.3s ease'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = '0 2px 5px rgba(0,0,0,0.05)'
+      }}
+    >
+      <div className="quote-text" style={{
+        fontSize: '16px',
+        color: '#555',
+        fontStyle: 'italic',
+        lineHeight: '28px',
+        marginBottom: '20px',
+        fontFamily: '"Open Sans", sans-serif'
+      }}>
+        <i className="fas fa-quote-left" style={{
+          color: '#ffb600',
+          marginRight: '10px',
+          fontSize: '18px'
+        }}></i>
+        "{testimonial.content}"
       </div>
-      <blockquote className="testimonial-quote">"{testimonial.content}"</blockquote>
-      <div className="testimonial-author">
+      <div className="quote-item-footer" style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '15px'
+      }}>
         {testimonial.client_photo ? (
-          <img src={testimonial.client_photo} alt={testimonial.client_name} className="testimonial-avatar" />
+          <img 
+            src={testimonial.client_photo} 
+            alt={testimonial.client_name} 
+            style={{
+              width: '50px',
+              height: '50px',
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid #ffb600'
+            }}
+          />
         ) : (
-          <div className="testimonial-avatar-placeholder">
+          <div style={{
+            width: '50px',
+            height: '50px',
+            borderRadius: '50%',
+            background: '#1a3c6e',
+            color: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: '"Montserrat", sans-serif',
+            fontSize: '18px',
+            fontWeight: 700,
+            flexShrink: 0
+          }}>
             {testimonial.client_name?.[0] || 'C'}
           </div>
         )}
-        <div>
-          <div className="testimonial-name">{testimonial.client_name}</div>
-          <div className="testimonial-meta">
+        <div className="quote-item-info">
+          <h3 className="quote-author" style={{
+            fontSize: '16px',
+            fontWeight: 700,
+            color: '#212121',
+            margin: 0,
+            fontFamily: '"Montserrat", sans-serif'
+          }}>
+            {testimonial.client_name}
+          </h3>
+          <span className="quote-subtext" style={{
+            fontSize: '13px',
+            color: '#777',
+            fontFamily: '"Open Sans", sans-serif'
+          }}>
             {testimonial.client_title}{testimonial.client_company && `, ${testimonial.client_company}`}
-          </div>
+          </span>
         </div>
       </div>
-      <style>{`
-        .testimonial-card {
-          background: var(--color-white);
-          border: 1px solid var(--color-light-gray);
-          border-radius: var(--radius-lg);
-          padding: 2rem;
-          transition: box-shadow var(--transition-base);
-          position: relative;
-        }
-        .testimonial-card::before {
-          content: '"';
-          position: absolute; top: 1rem; right: 1.5rem;
-          font-size: 5rem; font-family: Georgia, serif;
-          color: rgba(26,60,110,0.07); line-height: 1;
-        }
-        .testimonial-card:hover { box-shadow: var(--shadow-lg); }
-        .testimonial-stars { color: var(--color-gold); margin-bottom: 1rem; font-size: 0.9rem; }
-        .testimonial-quote {
-          font-size: 0.95rem; color: var(--color-dark-gray);
-          line-height: 1.7; font-style: italic;
-          margin-bottom: 1.5rem; border: none; padding: 0;
-        }
-        .testimonial-author { display: flex; align-items: center; gap: 0.75rem; }
-        .testimonial-avatar {
-          width: 44px; height: 44px; border-radius: 50%;
-          object-fit: cover; border: 2px solid var(--color-gold);
-        }
-        .testimonial-avatar-placeholder {
-          width: 44px; height: 44px; border-radius: 50%;
-          background: var(--color-navy); color: var(--color-white);
-          display: flex; align-items: center; justify-content: center;
-          font-family: var(--font-heading); font-size: 1.1rem; font-weight: 700;
-          flex-shrink: 0;
-        }
-        .testimonial-name { font-weight: 700; font-size: 0.9rem; color: var(--color-navy); }
-        .testimonial-meta { font-size: 0.8rem; color: var(--color-mid-gray); }
-      `}</style>
     </div>
   )
 }
 
 // ─────────────────────────────────────────────
-// StatsBanner.jsx
+// StatsBanner.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
 
 const FALLBACK_STATS = [
@@ -129,55 +208,110 @@ const FALLBACK_STATS = [
 
 export function StatsBanner({ stats }) {
   const data = stats?.length ? stats : FALLBACK_STATS
+  
   return (
-    <section className="stats-banner">
-      <div className="container">
-        <div className="stats-grid">
-          {data.map((stat, i) => (
-            <div key={i} className="stat-item">
-              <div className="stat-icon">
-                <i className={`bi ${stat.icon_class}`}></i>
+    <section 
+      className="facts-area dark-bg"
+      style={{
+        background: '#252525',
+        padding: '70px 0',
+        position: 'relative',
+        color: '#fff'
+      }}
+    >
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="facts-wrapper">
+          <div className="row">
+            {data.slice(0, 4).map((stat, i) => (
+              <div 
+                key={i} 
+                className="col-md-3 col-sm-6 ts-facts"
+                style={{
+                  textAlign: 'center',
+                  padding: '20px 15px',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                <div 
+                  className="ts-facts-img"
+                  style={{
+                    marginBottom: '15px'
+                  }}
+                >
+                  <i 
+                    className={`bi ${stat.icon_class || 'bi-check-circle'}`} 
+                    style={{ 
+                      fontSize: '3rem', 
+                      color: '#ffb600',
+                      transition: 'all 0.3s ease'
+                    }}
+                  ></i>
+                </div>
+                <div className="ts-facts-content">
+                  <h2 
+                    className="ts-facts-num"
+                    style={{
+                      fontSize: '36px',
+                      fontWeight: 700,
+                      color: '#ffffff',
+                      marginBottom: '5px',
+                      lineHeight: 1.2,
+                      fontFamily: '"Montserrat", sans-serif'
+                    }}
+                  >
+                    <span className="counterUp">
+                      {stat.value}
+                    </span>
+                  </h2>
+                  <h3 
+                    className="ts-facts-title"
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: 400,
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      margin: 0,
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px',
+                      fontFamily: '"Open Sans", sans-serif'
+                    }}
+                  >
+                    {stat.label}
+                  </h3>
+                  {stat.description && (
+                    <p style={{
+                      fontSize: '12px',
+                      color: 'rgba(255, 255, 255, 0.4)',
+                      marginTop: '5px',
+                      marginBottom: 0,
+                      fontFamily: '"Open Sans", sans-serif'
+                    }}>
+                      {stat.description}
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="stat-value">{stat.value}</div>
-              <div className="stat-label">{stat.label}</div>
-              {stat.description && <div className="stat-desc">{stat.description}</div>}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+      
+      {/* Responsive styles */}
       <style>{`
-        .stats-banner {
-          background: linear-gradient(135deg, var(--color-navy-dark), var(--color-navy));
-          padding: 4rem 0;
-          position: relative; overflow: hidden;
+        @media (max-width: 768px) {
+          .ts-facts {
+            margin-bottom: 30px;
+          }
+          .ts-facts:last-child {
+            margin-bottom: 0;
+          }
         }
-        .stats-banner::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 2rem;
-          position: relative;
-        }
-        .stat-item {
-          text-align: center; padding: 1.5rem 1rem;
-          border-right: 1px solid rgba(255,255,255,0.1);
-        }
-        .stat-item:last-child { border-right: none; }
-        .stat-icon { font-size: 2rem; color: var(--color-gold); margin-bottom: 0.75rem; }
-        .stat-value {
-          font-family: var(--font-heading); font-size: 2.5rem;
-          font-weight: 900; color: var(--color-white); line-height: 1;
-          margin-bottom: 0.4rem;
-        }
-        .stat-label { font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.85); }
-        .stat-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem; }
-        @media (max-width: 700px) {
-          .stats-grid { grid-template-columns: repeat(2, 1fr); }
-          .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        @media (max-width: 576px) {
+          .facts-area {
+            padding: 40px 0 !important;
+          }
+          .ts-facts-num {
+            font-size: 28px !important;
+          }
         }
       `}</style>
     </section>
