@@ -222,7 +222,7 @@ export default function Navbar() {
         <div className="drawer-header">
           <Link to="/" className="drawer-logo" onClick={closeDrawer} aria-label="Home">
             <div className="drawer-logo-icon">
-              <img src={nairobi1Logo} alt="Nairobi 1" className="logo-img" style={{ height: '40px', width: 'auto' }} />
+              <img src={nairobi1Logo} alt="Nairobi 1" className="logo-img drawer-logo-img" />
             </div>
             <div className="drawer-logo-text">
               <span className="logo-main">Nairobi 1</span>
@@ -304,10 +304,18 @@ export default function Navbar() {
           color: #ffb600 !important;
         }
 
-        /* Logo */
+        /* Logo — fluid sizing, scales smoothly across all screen widths */
         .header-logo-img {
-          height: 60px;
+          width: clamp(150px, 22vw, 300px);
+          height: auto;
+          max-width: 100%;
+        }
+
+        /* Drawer logo */
+        .drawer-logo-img {
+          height: 52px;
           width: auto;
+          max-width: 100%;
         }
 
         /* Sticky header shadow */
@@ -510,7 +518,8 @@ export default function Navbar() {
             padding: 0.75rem 0;
           }
           .header-logo-img {
-            height: 42px;
+            width: clamp(140px, 40vw, 220px);
+            height: auto;
           }
           .top-info-box li {
             border: 0;
