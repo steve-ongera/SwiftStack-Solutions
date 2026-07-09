@@ -52,7 +52,7 @@ export default function Navbar() {
   return (
     <>
       {/* ── Top Bar (Theme) ── */}
-      <div id="top-bar" className="top-bar">
+      <div id="top-bar" className="top-bar d-none d-lg-block">
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-8">
@@ -101,14 +101,34 @@ export default function Navbar() {
             <div className="logo-area">
               <div className="row align-items-center">
                 {/* Logo */}
-                <div className="logo col-lg-3 text-center text-lg-left mb-3 mb-md-5 mb-lg-0">
+                <div className="logo col-6 col-lg-3 text-left mb-0 mb-lg-0">
                   <Link className="d-block" to="/" aria-label="Nairobi 1 — Home">
-                    <img loading="lazy" src={nairobi1Logo} alt="Nairobi 1" style={{ height: '60px', width: 'auto' }} />
+                    <img
+                      loading="lazy"
+                      src={nairobi1Logo}
+                      alt="Nairobi 1"
+                      className="header-logo-img"
+                    />
                   </Link>
                 </div>
 
-                {/* Header Right - Info Boxes */}
-                <div className="col-lg-9 header-right">
+                {/* Mobile-only hamburger trigger, sits opposite the logo */}
+                <div className="col-6 d-flex d-lg-none justify-content-end">
+                  <button
+                    className="mobile-menu-trigger"
+                    type="button"
+                    onClick={openDrawer}
+                    aria-label="Open navigation menu"
+                    aria-expanded={drawerOpen}
+                  >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </button>
+                </div>
+
+                {/* Header Right - Info Boxes (desktop only) */}
+                <div className="col-lg-9 header-right d-none d-lg-block">
                   <ul className="top-info-box">
                     <li>
                       <div className="info-box">
@@ -144,24 +164,13 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── Navigation ── */}
-        <div className="site-navigation">
+        {/* ── Navigation (desktop only, mobile uses the drawer) ── */}
+        <div className="site-navigation d-none d-lg-block">
           <div className="container">
             <div className="row">
               <div className="col-lg-12">
                 <nav className="navbar navbar-expand-lg navbar-dark p-0">
-                  <button 
-                    className="navbar-toggler" 
-                    type="button" 
-                    onClick={openDrawer}
-                    aria-label="Toggle navigation"
-                    aria-expanded={drawerOpen}
-                  >
-                    <span className="navbar-toggler-icon"></span>
-                  </button>
-
-                  {/* Desktop Navigation */}
-                  <div id="navbar-collapse" className="collapse navbar-collapse d-none d-lg-block">
+                  <div id="navbar-collapse" className="collapse navbar-collapse d-lg-block">
                     <ul className="nav navbar-nav mr-auto">
                       {NAV_LINKS.map(({ path, label }) => (
                         <li key={path} className={`nav-item ${pathname === path ? 'active' : ''}`}>
@@ -213,7 +222,7 @@ export default function Navbar() {
         <div className="drawer-header">
           <Link to="/" className="drawer-logo" onClick={closeDrawer} aria-label="Home">
             <div className="drawer-logo-icon">
-              <img src={nairobi1Logo} alt="Nairobi 1" className="logo-img" style={{ height: '45px', width: 'auto' }} />
+              <img src={nairobi1Logo} alt="Nairobi 1" className="logo-img" style={{ height: '40px', width: 'auto' }} />
             </div>
             <div className="drawer-logo-text">
               <span className="logo-main">Nairobi 1</span>
@@ -294,35 +303,79 @@ export default function Navbar() {
         .nav-links .nav-link-item.active {
           color: #ffb600 !important;
         }
+
+        /* Logo */
+        .header-logo-img {
+          height: 60px;
+          width: auto;
+        }
+
+        /* Sticky header shadow */
+        .header-one.navbar-fixed {
+          box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Mobile hamburger trigger */
+        .mobile-menu-trigger {
+          width: 40px;
+          height: 40px;
+          border: none;
+          background: transparent;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          cursor: pointer;
+          padding: 0;
+        }
+        .mobile-menu-trigger span {
+          display: block;
+          width: 24px;
+          height: 2px;
+          background: #1a3c6e;
+          border-radius: 2px;
+          transition: all 0.2s ease;
+        }
+        .mobile-menu-trigger:hover span {
+          background: #ffb600;
+        }
+
+        /* Drawer overlay with blur for a more polished feel */
         .drawer-overlay {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.5);
+          background: rgba(0,0,0,0.45);
+          backdrop-filter: blur(2px);
           z-index: 1040;
           opacity: 0;
           visibility: hidden;
-          transition: all 0.3s ease;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .drawer-overlay.open {
           opacity: 1;
           visibility: visible;
         }
+
+        /* Drawer: transform-based slide for smoother, GPU-accelerated motion */
         .side-drawer {
           position: fixed;
           top: 0;
-          right: -320px;
+          right: 0;
           width: 300px;
+          max-width: 85vw;
           height: 100%;
           background: #fff;
           z-index: 1050;
-          transition: right 0.3s ease;
+          transform: translateX(100%);
+          transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
           padding: 1.5rem;
           display: flex;
           flex-direction: column;
-          box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+          box-shadow: -4px 0 24px rgba(0,0,0,0.12);
         }
         .side-drawer.open {
-          right: 0;
+          transform: translateX(0);
         }
         .drawer-header {
           display: flex;
@@ -352,15 +405,27 @@ export default function Navbar() {
         .drawer-close {
           background: none;
           border: none;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           cursor: pointer;
           color: #666;
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.2s;
+        }
+        .drawer-close:hover {
+          background: #f5f5f5;
+          color: #1a3c6e;
         }
         .drawer-nav {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
+          overflow-y: auto;
         }
         .drawer-section-label {
           font-size: 0.7rem;
@@ -438,8 +503,15 @@ export default function Navbar() {
         .drawer-contact-info a:hover {
           color: #1a3c6e;
         }
-        /* Mobile responsiveness */
+
+        /* Mobile header spacing */
         @media (max-width: 991px) {
+          .logo-area {
+            padding: 0.75rem 0;
+          }
+          .header-logo-img {
+            height: 42px;
+          }
           .top-info-box li {
             border: 0;
             text-align: center;

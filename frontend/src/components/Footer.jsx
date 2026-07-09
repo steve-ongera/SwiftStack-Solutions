@@ -63,7 +63,7 @@ export default function Footer() {
                 className="footer-logo" 
                 src={nairobi1Logo}
                 alt="Nairobi 1"
-                style={{ maxHeight: '35px', marginBottom: '20px' }}
+                style={{ maxHeight: '52px', marginBottom: '20px' }}
               />
               <p>
                 A leading software development company delivering enterprise-grade digital solutions
@@ -118,15 +118,8 @@ export default function Footer() {
             <div className="col-md-12">
               <div className="copyright-info text-center">
                 <span>
-                  Copyright &copy; {new Date().getFullYear()}, Designed &amp; Developed by{' '}
-                  <a href="https://themefisher.com" target="_blank" rel="noreferrer">Themefisher</a>
+                  Copyright &copy; {new Date().getFullYear()} Nairobi 1. All rights reserved.
                 </span>
-              </div>
-            </div>
-
-            <div className="col-md-12">
-              <div className="copyright-info text-center">
-                <span>Distributed by <a href="https://themewagon.com/" target="_blank" rel="noreferrer">Themewagon</a></span>
               </div>
             </div>
 
@@ -186,6 +179,9 @@ export default function Footer() {
           color: #fff;
           border-left: 3px solid #ffb600;
         }
+        .footer-logo {
+          border-radius: 4px;
+        }
         .footer-social ul {
           list-style: none;
           margin: 0;
@@ -216,6 +212,9 @@ export default function Footer() {
           z-index: 1;
           font-weight: 600;
           font-size: 12px;
+        }
+        .copyright-info {
+          margin-bottom: 10px;
         }
         .footer-menu ul li {
           display: inline-block;
