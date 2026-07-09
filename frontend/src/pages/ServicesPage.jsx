@@ -1,11 +1,12 @@
 // ─────────────────────────────────────────────
-// ServicesPage.jsx
+// ServicesPage.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { servicesAPI } from '../services/api'
 import { ServiceCard } from '../components/Cards'
- 
+
 const DEMO_SERVICES = [
   { id:1, title:'Web Development', icon_class:'bi-globe2', short_description:'Enterprise-grade web apps using React, Next.js, Vue, and Django REST Framework.', technologies:[], tier:'professional' },
   { id:2, title:'Mobile Applications', icon_class:'bi-phone', short_description:'Cross-platform iOS & Android apps with React Native and Flutter.', technologies:[], tier:'professional' },
@@ -17,68 +18,96 @@ const DEMO_SERVICES = [
   { id:8, title:'DevOps & CI/CD', icon_class:'bi-infinity', short_description:'Docker, Kubernetes, GitHub Actions, and infrastructure as code.', technologies:[], tier:'professional' },
   { id:9, title:'ERP & CRM Solutions', icon_class:'bi-diagram-3', short_description:'Custom Odoo, Salesforce implementations, and bespoke ERP systems.', technologies:[], tier:'enterprise' },
 ]
- 
-export default function  ServicesPage() {
+
+export default function ServicesPage() {
   const [services, setServices] = useState([])
+  
   useEffect(() => {
-    servicesAPI.getAll().then(r => setServices(r.data.results || r.data)).catch(() => setServices(DEMO_SERVICES))
+    servicesAPI.getAll()
+      .then(r => setServices(r.data.results || r.data))
+      .catch(() => setServices(DEMO_SERVICES))
   }, [])
+  
   const data = services.length ? services : DEMO_SERVICES
- 
+
   return (
     <div>
-      <div className="page-header">
-        <div className="container">
-          <span className="section-label">What We Offer</span>
-          <h1>Our Services</h1>
-          <p>End-to-end technology solutions engineered for scale and impact.</p>
+
+      {/* ── Page Banner ── */}
+      <div className="banner-area" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1600&q=80)' }}>
+        <div className="banner-text">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="banner-heading">
+                  <h1 className="banner-title">Our Services</h1>
+                  <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb justify-content-center">
+                      <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                      <li className="breadcrumb-item active" aria-current="page">Services</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <section className="section-padding">
+
+      {/* ── Services Grid ── */}
+      <section id="ts-service-area" className="ts-service-area section-padding">
         <div className="container">
-          <div className="grid-3">
-            {data.map(s => <ServiceCard key={s.id} service={s} />)}
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title">What We Offer</h2>
+              <h3 className="section-sub-title">Our Services</h3>
+            </div>
           </div>
-        </div>
-      </section>
-      {/* Process */}
-      <section className="section-padding" style={{ background:'var(--color-navy)', color:'var(--color-white)' }}>
-        <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'3rem' }}>
-            <span className="section-label">How We Work</span>
-            <h2 style={{ color:'var(--color-white)', fontFamily:'var(--font-heading)', fontSize:'2rem', fontWeight:700 }}>Our Delivery Process</h2>
-            <div className="gold-divider center"></div>
-          </div>
-          <div className="process-steps">
-            {[['bi-search','Discovery','Understanding your goals, users, and constraints.'],
-              ['bi-pencil-square','Design','Wireframing, prototyping, and architecture planning.'],
-              ['bi-code-slash','Development','Agile sprints, code reviews, and continuous integration.'],
-              ['bi-rocket-takeoff','Launch','Deployment, QA, performance testing, and go-live support.'],
-              ['bi-arrow-repeat','Support','Ongoing maintenance, monitoring, and feature evolution.'],
-            ].map(([icon, title, desc], i) => (
-              <div key={title} className="process-step">
-                <div className="process-step-num">{i+1}</div>
-                <div className="process-step-icon"><i className={`bi ${icon}`}></i></div>
-                <h4>{title}</h4>
-                <p>{desc}</p>
+
+          <div className="row">
+            {data.map(s => (
+              <div key={s.id} className="col-lg-4 col-md-6 mb-4">
+                <ServiceCard service={s} />
               </div>
             ))}
           </div>
         </div>
       </section>
-      <style>{`
-        .process-steps { display:flex; gap:1rem; }
-        .process-step { flex:1; text-align:center; padding:1.5rem 1rem; position:relative; }
-        .process-step::after { content:'→'; position:absolute; right:-0.5rem; top:2.5rem; color:var(--color-gold); font-size:1.2rem; }
-        .process-step:last-child::after { display:none; }
-        .process-step-num { font-family:var(--font-heading); font-size:0.7rem; font-weight:900; color:var(--color-gold); letter-spacing:1px; margin-bottom:0.5rem; }
-        .process-step-icon { font-size:2rem; color:var(--color-gold); margin-bottom:0.75rem; }
-        .process-step h4 { color:var(--color-white); font-size:0.95rem; margin-bottom:0.4rem; }
-        .process-step p { color:rgba(255,255,255,0.6); font-size:0.8rem; line-height:1.5; }
-        @media(max-width:700px){ .process-steps{ flex-direction:column; } .process-step::after{ display:none; } }
-      `}</style>
+
+      {/* ── Process Section ── */}
+      <section className="section-padding" style={{ background: '#23282d', color: '#fff' }}>
+        <div className="container">
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title" style={{ color: '#fff' }}>How We Work</h2>
+              <h3 className="section-sub-title" style={{ color: '#ffb600' }}>Our Delivery Process</h3>
+            </div>
+          </div>
+
+          <div className="row text-center mt-4">
+            {[
+              { icon: 'fa-search', title: 'Discovery', desc: 'Understanding your goals, users, and constraints.' },
+              { icon: 'fa-pencil-alt', title: 'Design', desc: 'Wireframing, prototyping, and architecture planning.' },
+              { icon: 'fa-code', title: 'Development', desc: 'Agile sprints, code reviews, and continuous integration.' },
+              { icon: 'fa-rocket', title: 'Launch', desc: 'Deployment, QA, performance testing, and go-live support.' },
+              { icon: 'fa-sync', title: 'Support', desc: 'Ongoing maintenance, monitoring, and feature evolution.' },
+            ].map((step, i) => (
+              <div key={i} className="col-lg-2 col-md-4 col-6 mb-4">
+                <div style={{ fontSize: '2.5rem', color: '#ffb600', marginBottom: '1rem' }}>
+                  <i className={`fas ${step.icon}`}></i>
+                </div>
+                <h5 style={{ color: '#fff', fontSize: '0.95rem' }}>{step.title}</h5>
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>{step.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="general-btn text-center mt-4">
+            <Link to="/contact" className="btn btn-primary">Get Started Today</Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
- 
- 

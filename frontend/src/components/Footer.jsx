@@ -1,6 +1,11 @@
+// ─────────────────────────────────────────────
+// Footer.jsx - Updated with Constra Theme
+// ─────────────────────────────────────────────
+
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { newsletterAPI } from '../services/api'
+import nairobi1Logo from '../assets/nairobi_1_logo.jpeg'
 
 const FOOTER_LINKS = [
   { to: '/about',     label: 'About Us' },
@@ -21,11 +26,11 @@ const SERVICE_LINKS = [
 ]
 
 const SOCIAL_LINKS = [
-  { icon: 'bi-linkedin',  href: '#', label: 'LinkedIn' },
-  { icon: 'bi-twitter-x', href: '#', label: 'X (Twitter)' },
-  { icon: 'bi-github',    href: '#', label: 'GitHub' },
-  { icon: 'bi-youtube',   href: '#', label: 'YouTube' },
-  { icon: 'bi-facebook',  href: '#', label: 'Facebook' },
+  { icon: 'fab fa-linkedin-in', href: '#', label: 'LinkedIn' },
+  { icon: 'fab fa-twitter', href: '#', label: 'X (Twitter)' },
+  { icon: 'fab fa-github', href: '#', label: 'GitHub' },
+  { icon: 'fab fa-youtube', href: '#', label: 'YouTube' },
+  { icon: 'fab fa-facebook-f', href: '#', label: 'Facebook' },
 ]
 
 export default function Footer() {
@@ -45,194 +50,314 @@ export default function Footer() {
   }
 
   return (
-    <footer className="footer-gov" aria-label="Site footer">
-      {/* Main footer body */}
+    <footer id="footer" className="footer bg-overlay" aria-label="Site footer">
+      {/* ── Main Footer ── */}
       <div className="footer-main">
         <div className="container">
-          <div className="footer-grid">
-
-            {/* ── Brand column ── */}
-            <div className="footer-brand">
-              <Link to="/" className="footer-logo" aria-label="SwiftStack Solutions — Home">
-                <div className="footer-logo-icon" aria-hidden="true">
-                  <i className="bi bi-stack"></i>
-                </div>
-                <div>
-                  <span className="footer-logo-name">SwiftStack Solutions</span>
-                  <span className="footer-logo-tag">Building Tomorrow, Today</span>
-                </div>
-              </Link>
-
-              <p className="footer-desc">
+          <div className="row justify-content-between">
+            {/* ── About Column ── */}
+            <div className="col-lg-4 col-md-6 footer-widget footer-about">
+              <h3 className="widget-title">About Us</h3>
+              <img 
+                loading="lazy" 
+                className="footer-logo" 
+                src={nairobi1Logo}
+                alt="Nairobi 1"
+                style={{ maxHeight: '35px', marginBottom: '20px' }}
+              />
+              <p>
                 A leading software development company delivering enterprise-grade digital solutions
-                across Africa and beyond. ISO&nbsp;27001 certified, 97% on-time delivery.
+                across Africa and beyond. ISO 27001 certified, 97% on-time delivery.
               </p>
-
-              {/* Trust badges */}
-              <div className="footer-badges">
-                <span className="footer-badge">
-                  <i className="bi bi-shield-check" aria-hidden="true"></i>
-                  ISO 27001
-                </span>
-                <span className="footer-badge">
-                  <i className="bi bi-award" aria-hidden="true"></i>
-                  Best Tech Firm EA&nbsp;'24
-                </span>
-                <span className="footer-badge">
-                  <i className="bi bi-star-fill" aria-hidden="true"></i>
-                  5-Star Rated
-                </span>
-              </div>
-
-              {/* Socials */}
-              <div className="footer-socials" role="list" aria-label="Social media links">
-                {SOCIAL_LINKS.map(({ icon, href, label }) => (
-                  <a
-                    key={icon}
-                    href={href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-icon"
-                    role="listitem"
-                    aria-label={label}
-                  >
-                    <i className={`bi ${icon}`} aria-hidden="true"></i>
-                  </a>
-                ))}
+              <div className="footer-social">
+                <ul>
+                  {SOCIAL_LINKS.map(({ icon, href, label }) => (
+                    <li key={label}>
+                      <a href={href} aria-label={label}>
+                        <i className={icon}></i>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            {/* ── Quick Links ── */}
-            <div className="footer-col">
-              <h3 className="footer-col-title">Quick Links</h3>
-              <nav className="footer-links-list" aria-label="Quick links">
-                {FOOTER_LINKS.map(({ to, label }) => (
-                  <Link key={to} to={to} className="footer-link">
-                    <i className="bi bi-chevron-right" aria-hidden="true"></i>
-                    {label}
-                  </Link>
-                ))}
-              </nav>
+            {/* ── Working Hours ── */}
+            <div className="col-lg-4 col-md-6 footer-widget mt-5 mt-md-0">
+              <h3 className="widget-title">Working Hours</h3>
+              <div className="working-hours">
+                We work 7 days a week, every day excluding major holidays. Contact us if you have an emergency.
+                <br /><br />
+                Monday - Friday: <span className="text-right">8:00 - 18:00</span>
+                <br />
+                Saturday: <span className="text-right">9:00 - 15:00</span>
+                <br />
+                Sunday and holidays: <span className="text-right">Closed</span>
+              </div>
             </div>
 
-            {/* ── Services ── */}
-            <div className="footer-col">
-              <h3 className="footer-col-title">Services</h3>
-              <div className="footer-links-list">
+            {/* ── Services Column ── */}
+            <div className="col-lg-3 col-md-6 mt-5 mt-lg-0 footer-widget">
+              <h3 className="widget-title">Our Services</h3>
+              <ul className="list-arrow">
                 {SERVICE_LINKS.map((s) => (
-                  <span key={s} className="footer-link static">
-                    <i className="bi bi-dot" aria-hidden="true"></i>
-                    {s}
-                  </span>
+                  <li key={s}>
+                    <Link to="/services">{s}</Link>
+                  </li>
                 ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Copyright ── */}
+      <div className="copyright">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-md-12">
+              <div className="copyright-info text-center">
+                <span>
+                  Copyright &copy; {new Date().getFullYear()}, Designed &amp; Developed by{' '}
+                  <a href="https://themefisher.com" target="_blank" rel="noreferrer">Themefisher</a>
+                </span>
               </div>
             </div>
 
-            {/* ── Contact & Newsletter ── */}
-            <div className="footer-col">
-              <h3 className="footer-col-title">Contact</h3>
-
-              <address style={{ fontStyle: 'normal' }}>
-                <div className="footer-contact-item">
-                  <i className="bi bi-geo-alt-fill" aria-hidden="true"></i>
-                  <span>Westlands Business Park,<br />Nairobi, Kenya</span>
-                </div>
-                <div className="footer-contact-item">
-                  <i className="bi bi-telephone-fill" aria-hidden="true"></i>
-                  <a href="tel:+254700000000" style={{ color: 'inherit', textDecoration: 'none' }}>
-                    +254 700 000 000
-                  </a>
-                </div>
-                <div className="footer-contact-item">
-                  <i className="bi bi-envelope-fill" aria-hidden="true"></i>
-                  <a href="mailto:info@swiftstacksolutions.co.ke" style={{ color: 'inherit', textDecoration: 'none' }}>
-                    info@swiftstacksolutions.co.ke
-                  </a>
-                </div>
-                <div className="footer-contact-item">
-                  <i className="bi bi-clock-fill" aria-hidden="true"></i>
-                  <span>Mon – Fri, 8:00 AM – 6:00 PM EAT</span>
-                </div>
-              </address>
-
-              {/* Newsletter */}
-              <span className="footer-newsletter-label">Stay Updated</span>
-
-              {subStatus === 'success' ? (
-                <div className="alert-success" style={{ fontSize: '0.85rem', marginTop: '0.5rem' }}>
-                  <i className="bi bi-check-circle-fill" aria-hidden="true"></i>
-                  You're subscribed. Welcome aboard!
-                </div>
-              ) : (
-                <>
-                  <form
-                    onSubmit={handleSubscribe}
-                    className="footer-newsletter"
-                    aria-label="Newsletter subscription"
-                  >
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your email address"
-                      className="newsletter-input"
-                      aria-label="Email address for newsletter"
-                      disabled={subStatus === 'loading'}
-                    />
-                    <button
-                      type="submit"
-                      className="newsletter-btn"
-                      disabled={subStatus === 'loading'}
-                      aria-label="Subscribe to newsletter"
-                    >
-                      {subStatus === 'loading'
-                        ? <i className="bi bi-hourglass-split" aria-hidden="true"></i>
-                        : <><i className="bi bi-send-fill" aria-hidden="true"></i> Subscribe</>
-                      }
-                    </button>
-                  </form>
-
-                  {subStatus === 'error' && (
-                    <p className="form-error-msg" style={{ marginTop: '0.4rem' }}>
-                      <i className="bi bi-exclamation-circle" aria-hidden="true"></i>
-                      Something went wrong. Please try again.
-                    </p>
-                  )}
-
-                  <p className="newsletter-hint">
-                    <i className="bi bi-lock-fill" aria-hidden="true"></i>
-                    No spam, ever. Unsubscribe anytime.
-                  </p>
-                </>
-              )}
+            <div className="col-md-12">
+              <div className="copyright-info text-center">
+                <span>Distributed by <a href="https://themewagon.com/" target="_blank" rel="noreferrer">Themewagon</a></span>
+              </div>
             </div>
 
+            <div className="col-md-12">
+              <div className="footer-menu text-center">
+                <ul className="list-unstyled mb-0">
+                  {FOOTER_LINKS.map(({ to, label }) => (
+                    <li key={to}>
+                      <Link to={to}>{label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Back to Top Button ── */}
+          <div id="back-to-top" data-spy="affix" data-offset-top="10" className="back-to-top position-fixed">
+            <button 
+              className="btn btn-primary" 
+              title="Back to Top"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <i className="fa fa-angle-double-up"></i>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Footer bottom bar */}
-      <div className="footer-bottom">
-        <div className="container footer-bottom-inner">
-          <div className="footer-bottom-left">
-            <span>
-              © {new Date().getFullYear()} SwiftStack Solutions Ltd.
-              <span style={{ marginLeft: '0.35rem' }}>All rights reserved.</span>
-            </span>
-          </div>
-
-          <nav className="footer-bottom-links" aria-label="Legal links">
-            <a href="#">Privacy Policy</a>
-            <span className="footer-bottom-sep" aria-hidden="true">·</span>
-            <a href="#">Terms of Service</a>
-            <span className="footer-bottom-sep" aria-hidden="true">·</span>
-            <a href="#">Cookie Policy</a>
-            <span className="footer-bottom-sep" aria-hidden="true">·</span>
-            <a href="#">Accessibility</a>
-          </nav>
-        </div>
-      </div>
+      {/* ── Custom Styles ── */}
+      <style>{`
+        /* Footer overrides */
+        .footer.bg-overlay {
+          position: relative;
+        }
+        .footer.bg-overlay::after {
+          background-color: rgba(0, 0, 0, 0.8);
+          z-index: 0;
+          position: absolute;
+          content: '';
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+        }
+        .footer .container {
+          position: relative;
+          z-index: 1;
+        }
+        .footer-widget .widget-title {
+          font-size: 16px;
+          font-weight: 700;
+          position: relative;
+          margin: 0 0 30px;
+          padding-left: 15px;
+          text-transform: uppercase;
+          color: #fff;
+          border-left: 3px solid #ffb600;
+        }
+        .footer-social ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          margin-left: -13px;
+        }
+        .footer-social ul li {
+          display: inline-block;
+        }
+        .footer-social ul li a i {
+          display: block;
+          font-size: 16px;
+          color: #999;
+          transition: 400ms;
+          padding: 10px 13px;
+        }
+        .footer-social ul li:hover i {
+          color: #ffb600;
+        }
+        .working-hours .text-right {
+          float: right;
+        }
+        .copyright {
+          background: #ffb600;
+          color: #111;
+          padding: 25px 0;
+          position: relative;
+          z-index: 1;
+          font-weight: 600;
+          font-size: 12px;
+        }
+        .footer-menu ul li {
+          display: inline-block;
+          line-height: 12px;
+          padding-left: 15px;
+        }
+        .footer-menu ul li a {
+          background: none;
+          color: #111;
+          padding: 0;
+          text-decoration: none;
+        }
+        .footer-menu ul li a:hover {
+          color: #fff;
+        }
+        #back-to-top {
+          right: 40px;
+          top: auto;
+          z-index: 10;
+          display: none;
+        }
+        #back-to-top.position-fixed {
+          bottom: 20px;
+          display: block;
+        }
+        #back-to-top .btn.btn-primary {
+          width: 36px;
+          height: 36px;
+          line-height: 36px;
+          background: rgba(0, 0, 0, 0.9);
+          border-radius: 3px;
+          color: #ffb600;
+          font-weight: 700;
+          font-size: 16px;
+          padding: 0;
+          border: none;
+          cursor: pointer;
+        }
+        #back-to-top .btn.btn-primary:hover {
+          color: #fff;
+          background: #111;
+        }
+        @media (max-width: 767px) {
+          #back-to-top {
+            right: 15px;
+          }
+          #back-to-top .btn.btn-primary {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            font-size: 14px;
+          }
+        }
+        /* Newsletter subscription (your existing) */
+        .footer-newsletter {
+          display: flex;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+        }
+        .newsletter-input {
+          flex: 1;
+          padding: 0.5rem 0.75rem;
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 4px;
+          background: rgba(255,255,255,0.05);
+          color: #fff;
+        }
+        .newsletter-input::placeholder {
+          color: rgba(255,255,255,0.5);
+        }
+        .newsletter-btn {
+          padding: 0.5rem 1rem;
+          background: #ffb600;
+          border: none;
+          border-radius: 4px;
+          color: #111;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .newsletter-btn:hover {
+          background: #e6a300;
+        }
+        .newsletter-hint {
+          font-size: 0.7rem;
+          color: rgba(255,255,255,0.4);
+          margin-top: 0.3rem;
+        }
+        .footer-contact-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.75rem;
+          margin-bottom: 0.75rem;
+          color: rgba(255,255,255,0.7);
+        }
+        .footer-contact-item i {
+          color: #ffb600;
+          margin-top: 3px;
+        }
+        .footer-newsletter-label {
+          display: block;
+          color: #fff;
+          font-weight: 600;
+          margin-top: 1rem;
+          margin-bottom: 0.25rem;
+        }
+        .footer-bottom {
+          background: #0d0d0d;
+          padding: 1rem 0;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-bottom-inner {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .footer-bottom-links {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          flex-wrap: wrap;
+        }
+        .footer-bottom-links a {
+          color: rgba(255,255,255,0.5);
+          text-decoration: none;
+          font-size: 0.8rem;
+        }
+        .footer-bottom-links a:hover {
+          color: #ffb600;
+        }
+        .footer-bottom-sep {
+          color: rgba(255,255,255,0.2);
+        }
+        @media (max-width: 768px) {
+          .footer-bottom-inner {
+            flex-direction: column;
+            text-align: center;
+          }
+        }
+      `}</style>
     </footer>
   )
 }

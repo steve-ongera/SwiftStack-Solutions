@@ -1,4 +1,10 @@
+// ─────────────────────────────────────────────
+// AboutPage.jsx - Updated with Constra Theme
+// ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { teamAPI } from '../services/api'
 
 const DEMO_TEAM = [
@@ -8,12 +14,16 @@ const DEMO_TEAM = [
   { id:4, full_name:'Amina Diallo', job_title:'Head of Design', is_leadership:true, bio:'UX leader with 10 years experience.', photo:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=70' },
 ]
 
-const VALUES = [
-  { icon:'bi-lightbulb-fill', title:'Innovation First', desc:'We embrace cutting-edge technologies and creative problem-solving to deliver future-proof solutions.' },
-  { icon:'bi-shield-fill-check', title:'Integrity Always', desc:'Transparency and honesty in every client engagement, from discovery to delivery and beyond.' },
-  { icon:'bi-people-fill', title:'People-Centric', desc:'Our team and clients are our greatest assets. We invest deeply in both.' },
-  { icon:'bi-graph-up-arrow', title:'Excellence in Execution', desc:'We hold ourselves to the highest standards, delivering quality that exceeds expectations.' },
-]
+// ── SEO Data ──
+const SEO = {
+  title: 'About Nairobi 1 | Leading Technology Company in Kenya',
+  description: 'Nairobi 1 is a premier technology company delivering innovative digital solutions across Africa. Meet our leadership team and learn about our mission.',
+  keywords: 'Nairobi 1, technology company Kenya, digital transformation Africa, software development Nairobi, IT solutions Kenya',
+  author: 'Nairobi 1',
+  url: 'https://nairobi1.com/about',
+  image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+  type: 'website'
+}
 
 export default function AboutPage() {
   const [team, setTeam] = useState([])
@@ -26,174 +36,210 @@ export default function AboutPage() {
 
   const displayTeam = team.length ? team : DEMO_TEAM
 
+  // ── Structured Data (JSON-LD) ──
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": "About Nairobi 1",
+    "description": SEO.description,
+    "url": SEO.url,
+    "about": {
+      "@type": "Organization",
+      "name": "Nairobi 1",
+      "description": "Technology company providing digital solutions across Africa",
+      "foundingDate": "2016",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nairobi",
+        "addressCountry": "Kenya"
+      }
+    }
+  }
+
   return (
-    <div>
-      {/* Page Header */}
-      <div className="page-header">
-        <div className="container">
-          <span className="section-label">Our Story</span>
-          <h1>About SwiftStack Solutions</h1>
-          <p>A decade of delivering enterprise technology solutions across Africa and beyond.</p>
+    <>
+      <Helmet>
+        {/* Primary Meta Tags */}
+        <title>{SEO.title}</title>
+        <meta name="title" content={SEO.title} />
+        <meta name="description" content={SEO.description} />
+        <meta name="keywords" content={SEO.keywords} />
+        <meta name="author" content={SEO.author} />
+        <link rel="canonical" href={SEO.url} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content={SEO.type} />
+        <meta property="og:url" content={SEO.url} />
+        <meta property="og:title" content={SEO.title} />
+        <meta property="og:description" content={SEO.description} />
+        <meta property="og:image" content={SEO.image} />
+        <meta property="og:site_name" content="Nairobi 1" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={SEO.url} />
+        <meta name="twitter:title" content={SEO.title} />
+        <meta name="twitter:description" content={SEO.description} />
+        <meta name="twitter:image" content={SEO.image} />
+
+        {/* Additional SEO */}
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      </Helmet>
+
+      <div>
+
+        {/* ── Page Banner ── */}
+        <div className="banner-area" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80)' }}>
+          <div className="banner-text">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="banner-heading">
+                    <h1 className="banner-title">About Us</h1>
+                    <nav aria-label="breadcrumb">
+                      <ol className="breadcrumb justify-content-center">
+                        <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                        <li className="breadcrumb-item active" aria-current="page">About Us</li>
+                      </ol>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* ── About Content ── */}
+        <section className="section-padding">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-6">
+                <h2 className="into-title">Who We Are</h2>
+                <h3 className="into-sub-title">Technology Partners You Can Trust</h3>
+                <p>
+                  Founded in 2016, Nairobi 1 has grown from a 3-person startup in Nairobi's Silicon Savannah
+                  into a 45-strong team of world-class engineers, designers, and strategists.
+                </p>
+                <p>
+                  We partner with startups, SMEs, and government agencies to design, build, and scale digital products
+                  that create real impact. Our Pan-African perspective combined with global best practices makes us
+                  uniquely positioned to understand and solve African business challenges.
+                </p>
+                <div className="row">
+                  <div className="col-md-6">
+                    <ul className="list-arrow">
+                      <li>Nairobi, Kenya (HQ)</li>
+                      <li>Founded 2016</li>
+                      <li>Serving 12 Countries</li>
+                      <li>ISO 27001 Certified</li>
+                    </ul>
+                  </div>
+                  <div className="col-md-6">
+                    <ul className="list-arrow">
+                      <li>45+ Team Members</li>
+                      <li>150+ Projects Delivered</li>
+                      <li>99% Client Satisfaction</li>
+                      <li>24/7 Support</li>
+                    </ul>
+                  </div>
+                </div>
+                <Link to="/contact" className="btn btn-primary mt-3">Get In Touch</Link>
+              </div>
+              <div className="col-lg-6 mt-4 mt-lg-0">
+                <img 
+                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" 
+                  alt="Nairobi 1 team" 
+                  className="img-fluid rounded"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Mission & Vision ── */}
+        <section className="solid-bg section-padding">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-6">
+                <div className="ts-service-box">
+                  <span className="ts-service-icon">
+                    <i className="fas fa-bullseye"></i>
+                  </span>
+                  <div className="ts-service-box-content">
+                    <h3 className="service-box-title">Our Mission</h3>
+                    <p>
+                      To democratise access to world-class technology by building affordable, scalable, and
+                      impactful digital solutions for African businesses and beyond.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-lg-6">
+                <div className="ts-service-box">
+                  <span className="ts-service-icon">
+                    <i className="fas fa-eye"></i>
+                  </span>
+                  <div className="ts-service-box-content">
+                    <h3 className="service-box-title">Our Vision</h3>
+                    <p>
+                      To be Africa's most trusted technology partner—driving digital transformation and
+                      economic growth through innovation and engineering excellence.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Leadership Team ── */}
+        <section className="section-padding">
+          <div className="container">
+            <div className="row text-center">
+              <div className="col-12">
+                <h2 className="section-title">Our People</h2>
+                <h3 className="section-sub-title">Leadership Team</h3>
+              </div>
+            </div>
+
+            <div className="row">
+              {displayTeam.map(m => (
+                <div key={m.id} className="col-lg-3 col-md-6 mb-4">
+                  <div className="ts-team-wrapper">
+                    <div className="ts-team-img">
+                      {m.photo ? (
+                        <img loading="lazy" className="img-fluid" src={m.photo} alt={m.full_name} />
+                      ) : (
+                        <div style={{ height: '280px', background: '#1a3c6e', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffb600', fontSize: '4rem', fontWeight: 700 }}>
+                          {m.full_name[0]}
+                        </div>
+                      )}
+                    </div>
+                    <div className="ts-team-content">
+                      <h3 className="ts-name">{m.full_name}</h3>
+                      <p className="ts-designation">{m.job_title}</p>
+                      <p className="ts-bio" style={{ fontSize: '0.85rem' }}>{m.bio}</p>
+                      <div className="team-social-icons">
+                        <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="GitHub"><i className="fab fa-github"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
       </div>
-
-      {/* Mission + Image */}
-      <section className="section-padding">
-        <div className="container">
-          <div className="about-grid">
-            <div>
-              <span className="section-label">Who We Are</span>
-              <h2 className="section-title">Technology Partners You Can Trust</h2>
-              <div className="gold-divider"></div>
-              <p style={{ color:'var(--color-dark-gray)', lineHeight:1.8, marginBottom:'1.25rem' }}>
-                Founded in 2016, SwiftStack Solutions has grown from a 3-person startup in Nairobi's Silicon Savannah into a 45-strong team of world-class engineers, designers, and strategists.
-              </p>
-              <p style={{ color:'var(--color-dark-gray)', lineHeight:1.8, marginBottom:'2rem' }}>
-                We partner with startups, SMEs, and government agencies to design, build, and scale digital products that create real impact. Our Pan-African perspective combined with global best practices makes us uniquely positioned to understand and solve African business challenges.
-              </p>
-              <div className="about-highlights">
-                {[
-                  ['bi-geo-alt-fill', 'Nairobi, Kenya (HQ)'],
-                  ['bi-calendar-fill', 'Founded 2016'],
-                  ['bi-globe2', 'Serving 12 Countries'],
-                  ['bi-award-fill', 'ISO 27001 Certified'],
-                ].map(([icon, text]) => (
-                  <div key={text} className="about-highlight">
-                    <i className={`bi ${icon}`} style={{color:'var(--color-gold)'}}></i>
-                    <span>{text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="about-images">
-              <img
-                src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80"
-                alt="SwiftStack office"
-                className="about-img-main"
-              />
-              <img
-                src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&q=70"
-                alt="Team at work"
-                className="about-img-secondary"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Mission & Vision */}
-      <section className="section-padding" style={{ background:'var(--color-off-white)' }}>
-        <div className="container">
-          <div className="grid-2">
-            <div className="mv-card mv-mission">
-              <div className="mv-icon"><i className="bi bi-bullseye"></i></div>
-              <h3>Our Mission</h3>
-              <p>
-                To democratise access to world-class technology by building affordable, scalable, and impactful digital solutions for African businesses and beyond.
-              </p>
-            </div>
-            <div className="mv-card mv-vision">
-              <div className="mv-icon"><i className="bi bi-eye-fill"></i></div>
-              <h3>Our Vision</h3>
-              <p>
-                To be Africa's most trusted technology partner—driving digital transformation and economic growth through innovation and engineering excellence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="section-padding">
-        <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'3rem' }}>
-            <span className="section-label">What Drives Us</span>
-            <h2 className="section-title">Our Core Values</h2>
-            <div className="gold-divider center"></div>
-          </div>
-          <div className="grid-4">
-            {VALUES.map(({ icon, title, desc }) => (
-              <div key={title} className="card-gov value-card">
-                <i className={`bi ${icon} value-icon`}></i>
-                <h4 style={{ marginBottom:'0.6rem', fontSize:'1rem' }}>{title}</h4>
-                <p style={{ fontSize:'0.875rem', color:'var(--color-dark-gray)', lineHeight:1.65 }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Leadership Team */}
-      <section className="section-padding" style={{ background:'var(--color-off-white)' }}>
-        <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'3rem' }}>
-            <span className="section-label">The People Behind SwiftStack</span>
-            <h2 className="section-title">Leadership Team</h2>
-            <div className="gold-divider center"></div>
-          </div>
-          <div className="grid-4">
-            {displayTeam.map(m => (
-              <div key={m.id} className="team-card">
-                <div className="team-card-photo">
-                  {m.photo ? (
-                    <img src={m.photo} alt={m.full_name} />
-                  ) : (
-                    <div className="team-card-initial">{m.full_name[0]}</div>
-                  )}
-                </div>
-                <div className="team-card-body">
-                  <h4 className="team-card-name">{m.full_name}</h4>
-                  <div className="team-card-title">{m.job_title}</div>
-                  {m.bio && <p className="team-card-bio">{m.bio}</p>}
-                  <div className="team-card-socials">
-                    {m.linkedin_url && <a href={m.linkedin_url}><i className="bi bi-linkedin"></i></a>}
-                    {m.twitter_url  && <a href={m.twitter_url}><i className="bi bi-twitter-x"></i></a>}
-                    {m.github_url   && <a href={m.github_url}><i className="bi bi-github"></i></a>}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <style>{`
-        .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
-        .about-highlights { display:flex; flex-wrap:wrap; gap:0.75rem 2rem; }
-        .about-highlight { display:flex; align-items:center; gap:0.5rem; font-size:0.9rem; font-weight:600; color:var(--color-navy); }
-        .about-images { position:relative; }
-        .about-img-main { width:100%; height:400px; object-fit:cover; border-radius:var(--radius-lg); display:block; }
-        .about-img-secondary {
-          position:absolute; bottom:-2rem; right:-2rem;
-          width:180px; height:140px; object-fit:cover;
-          border-radius:var(--radius-md); border:4px solid var(--color-white);
-          box-shadow:var(--shadow-lg);
-        }
-        .mv-card {
-          padding:2.5rem; border-radius:var(--radius-lg); position:relative; overflow:hidden;
-        }
-        .mv-mission { background:var(--color-navy); color:var(--color-white); }
-        .mv-vision { background:var(--color-gold); color:var(--color-navy-dark); }
-        .mv-icon { font-size:2.5rem; margin-bottom:1rem; }
-        .mv-mission .mv-icon { color:var(--color-gold); }
-        .mv-vision .mv-icon { color:var(--color-navy); }
-        .mv-card h3 { font-size:1.4rem; margin-bottom:0.75rem; color:inherit; }
-        .mv-card p { line-height:1.75; opacity:0.9; }
-        .value-icon { font-size:1.8rem; color:var(--color-navy); margin-bottom:1rem; display:block; }
-        .team-card { background:var(--color-white); border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--color-light-gray); transition:all var(--transition-base); }
-        .team-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); }
-        .team-card-photo { height:200px; overflow:hidden; background:var(--color-navy); display:flex; align-items:center; justify-content:center; }
-        .team-card-photo img { width:100%; height:100%; object-fit:cover; object-position:top; }
-        .team-card-initial { font-family:var(--font-heading); font-size:4rem; font-weight:700; color:var(--color-gold); }
-        .team-card-body { padding:1.25rem; }
-        .team-card-name { font-size:1rem; margin-bottom:0.25rem; }
-        .team-card-title { font-size:0.8rem; color:var(--color-gold-dark); font-weight:600; letter-spacing:0.3px; margin-bottom:0.6rem; }
-        .team-card-bio { font-size:0.82rem; color:var(--color-mid-gray); margin-bottom:0.75rem; line-height:1.55; }
-        .team-card-socials { display:flex; gap:0.5rem; }
-        .team-card-socials a { color:var(--color-mid-gray); font-size:0.95rem; text-decoration:none; transition:color var(--transition-fast); }
-        .team-card-socials a:hover { color:var(--color-navy); }
-        @media (max-width:900px) { .about-grid { grid-template-columns:1fr; } .about-images { display:none; } }
-      `}</style>
-    </div>
+    </>
   )
 }

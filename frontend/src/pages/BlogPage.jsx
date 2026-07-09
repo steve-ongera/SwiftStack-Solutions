@@ -1,85 +1,136 @@
 // ─────────────────────────────────────────────
-// BlogPage.jsx
+// BlogPage.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import HeroSection from '../components/HeroSection'
-import { ServiceCard } from '../components/Cards'
-import { TestimonialCard } from '../components/Cards'
-import { StatsBanner } from '../components/Cards'
-import { 
-  servicesAPI,
-  testimonialsAPI,
-  statsAPI,
-  portfolioAPI,
-  blogAPI
-} from '../services/api'
-
+import { blogAPI } from '../services/api'
 
 const DEMO_POSTS = [
-  { id:1, title:'Building Scalable APIs with Django REST Framework', slug:'scalable-apis-django', excerpt:'A deep dive into best practices for high-performance REST APIs.', cover_image:'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=600&q=70', published_at:'2024-01-15', read_time_minutes:8, category:{ name:'Engineering', color_hex:'#1a3c6e' } },
-  { id:2, title:'React 18 Concurrent Features: A Practical Guide', slug:'react-18-concurrent', excerpt:'How to take advantage of React 18s concurrent rendering model.', cover_image:'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&q=70', published_at:'2024-01-28', read_time_minutes:6, category:{ name:'Frontend', color_hex:'#0277bd' } },
-  { id:3, title:'Digital Transformation in African Healthcare', slug:'digital-health-africa', excerpt:'Case studies and lessons from deploying health-tech across East Africa.', cover_image:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=70', published_at:'2024-02-05', read_time_minutes:10, category:{ name:'Industry Insights', color_hex:'#2e7d32' } },
+  { id:1, title:'We Just Completed $17.6 Million Digital Transformation Project', content:'Lorem ipsum dolor sit amet...', created_at:'2024-07-20', cover_image:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=75', category:'Projects' },
+  { id:2, title:'Thandler Airport Technology Infrastructure Expansion Named', content:'Consectetur adipiscing elit...', created_at:'2024-06-17', cover_image:'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&q=75', category:'Infrastructure' },
+  { id:3, title:'Silicon Bench Begins Construction of Solar Facilities', content:'Sed do eiusmod tempor...', created_at:'2024-08-13', cover_image:'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=700&q=75', category:'Sustainability' },
+  { id:4, title:'AI-Powered Analytics Platform Launches in Kenya', content:'Ut enim ad minim veniam...', created_at:'2024-09-01', cover_image:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=700&q=75', category:'AI' },
+  { id:5, title:'Cloud Migration Success Story: Banking Sector', content:'Quis nostrud exercitation...', created_at:'2024-08-25', cover_image:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=700&q=75', category:'Cloud' },
+  { id:6, title:'Cybersecurity Best Practices for 2024', content:'Duis aute irure dolor in...', created_at:'2024-08-10', cover_image:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=75', category:'Cybersecurity' },
 ]
- 
+
+// Category can come back from the API as either a plain string (demo data)
+// or a nested object { id, name, slug, color_hex } (real API serializer).
+// This normalizes both shapes so we always render a string.
+function getCategoryName(category) {
+  if (!category) return null
+  if (typeof category === 'object') return category.name
+  return category
+}
+
+function getCategoryColor(category) {
+  if (category && typeof category === 'object') return category.color_hex || null
+  return null
+}
+
 export default function BlogPage() {
   const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
-    blogAPI.getPosts().then(r => setPosts(r.data.results || r.data)).catch(() => setPosts(DEMO_POSTS))
+    blogAPI.getPosts()
+      .then(r => {
+        setPosts(r.data.results || r.data)
+        setLoading(false)
+      })
+      .catch(() => {
+        setPosts(DEMO_POSTS)
+        setLoading(false)
+      })
   }, [])
+
   const data = posts.length ? posts : DEMO_POSTS
- 
+
   return (
     <div>
-      <div className="page-header">
-        <div className="container">
-          <span className="section-label">Knowledge Hub</span>
-          <h1>Insights & Perspectives</h1>
-          <p>Engineering articles, industry analysis, and innovation stories from our team.</p>
+
+      {/* ── Page Banner ── */}
+      <div className="banner-area" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1600&q=80)' }}>
+        <div className="banner-text">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="banner-heading">
+                  <h1 className="banner-title">Our Blog</h1>
+                  <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb justify-content-center">
+                      <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                      <li className="breadcrumb-item active" aria-current="page">Blog</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <section className="section-padding">
+
+      {/* ── Blog Posts ── */}
+      <section id="news" className="news section-padding">
         <div className="container">
-          <div className="grid-3">
-            {data.map(post => (
-              <article key={post.id} className="blog-card">
-                <div className="blog-card-img" style={{ backgroundImage:`url(${post.cover_image})` }}>
-                  {post.category && (
-                    <span className="blog-category-badge" style={{ background: post.category.color_hex }}>
-                      {post.category.name}
-                    </span>
-                  )}
-                </div>
-                <div className="blog-card-body">
-                  <div className="blog-meta">
-                    <span><i className="bi bi-calendar3"></i> {new Date(post.published_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' })}</span>
-                    <span><i className="bi bi-clock"></i> {post.read_time_minutes} min read</span>
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title">Latest Insights</h2>
+              <h3 className="section-sub-title">From Our Blog</h3>
+            </div>
+          </div>
+
+          <div className="row">
+            {loading ? (
+              <div className="col-12 text-center">Loading posts...</div>
+            ) : (
+              data.map(post => {
+                const categoryName = getCategoryName(post.category)
+                const categoryColor = getCategoryColor(post.category)
+
+                return (
+                  <div key={post.id} className="col-lg-4 col-md-6 mb-4">
+                    <div className="latest-post">
+                      <div className="latest-post-media">
+                        <Link to="/blog" className="latest-post-img">
+                          <img loading="lazy" className="img-fluid" src={post.cover_image} alt={post.title} />
+                        </Link>
+                      </div>
+                      <div className="post-body">
+                        <h4 className="post-title">
+                          <Link to="/blog" className="d-inline-block">{post.title}</Link>
+                        </h4>
+                        <div className="latest-post-meta">
+                          <span className="post-item-date">
+                            <i className="fa fa-clock-o"></i> {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                          </span>
+                          {categoryName && (
+                            <span
+                              className="post-item-category"
+                              style={{ marginLeft: '1rem', color: categoryColor || 'inherit' }}
+                            >
+                              <i className="fa fa-tag"></i> {categoryName}
+                            </span>
+                          )}
+                        </div>
+                        <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                          {post.content?.substring(0, 100)}...
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="blog-card-title">{post.title}</h3>
-                  <p className="blog-card-excerpt">{post.excerpt}</p>
-                  <a href="#" className="blog-read-more">
-                    Read Article <i className="bi bi-arrow-right"></i>
-                  </a>
-                </div>
-              </article>
-            ))}
+                )
+              })
+            )}
+          </div>
+
+          <div className="general-btn text-center mt-4">
+            <a href="#" className="btn btn-primary">Load More</a>
           </div>
         </div>
       </section>
-      <style>{`
-        .blog-card { background:var(--color-white); border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--color-light-gray); transition:all var(--transition-base); }
-        .blog-card:hover { box-shadow:var(--shadow-lg); transform:translateY(-4px); }
-        .blog-card-img { height:200px; background-size:cover; background-position:center; position:relative; }
-        .blog-category-badge { position:absolute; bottom:1rem; left:1rem; color:white; padding:0.2rem 0.7rem; border-radius:100px; font-size:0.72rem; font-weight:700; letter-spacing:0.5px; }
-        .blog-card-body { padding:1.5rem; }
-        .blog-meta { display:flex; gap:1rem; font-size:0.78rem; color:var(--color-mid-gray); margin-bottom:0.75rem; }
-        .blog-meta span { display:flex; align-items:center; gap:0.3rem; }
-        .blog-card-title { font-size:1rem; margin-bottom:0.6rem; line-height:1.4; }
-        .blog-card-excerpt { font-size:0.875rem; color:var(--color-dark-gray); line-height:1.65; margin-bottom:1.25rem; }
-        .blog-read-more { color:var(--color-navy); font-size:0.875rem; font-weight:600; text-decoration:none; display:flex; align-items:center; gap:0.35rem; }
-        .blog-read-more:hover { color:var(--color-gold); }
-      `}</style>
+
     </div>
   )
 }
- 

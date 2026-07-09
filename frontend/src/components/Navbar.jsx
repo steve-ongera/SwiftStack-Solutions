@@ -1,6 +1,10 @@
+// ─────────────────────────────────────────────
+// Navbar.jsx - Updated with Constra Theme
+// ─────────────────────────────────────────────
+
 import { useState, useEffect, useCallback } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import swiftLogo from '../assets/swift_logo.png'   // ← adjust path to match your project
+import nairobi1Logo from '../assets/nairobi_1_logo.jpeg'
 
 const NAV_LINKS = [
   { path: '/',          label: 'Home',      icon: 'bi-house-door' },
@@ -47,62 +51,151 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ── Top Navbar ── */}
-      <nav className={`navbar-gov${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
-        <div className="nav-container">
-
-          {/* Logo */}
-          <Link to="/" className="nav-logo" aria-label="SwiftStack Solutions — Home">
-            <div className="logo-icon" aria-hidden="true">
-              <img src={swiftLogo} alt="SwiftStack logo" className="logo-img" />
+      {/* ── Top Bar (Theme) ── */}
+      <div id="top-bar" className="top-bar">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-8 col-md-8">
+              <ul className="top-info text-center text-md-left">
+                <li>
+                  <i className="fas fa-map-marker-alt"></i>
+                  <p className="info-text">Westlands Business Park, Nairobi, Kenya</p>
+                </li>
+                <li>
+                  <i className="fas fa-phone"></i>
+                  <p className="info-text">+254 700 000 000</p>
+                </li>
+                <li>
+                  <i className="fas fa-envelope"></i>
+                  <p className="info-text">info@nairobi1.com</p>
+                </li>
+              </ul>
             </div>
-            <div className="logo-text">
-              <span className="logo-main">SwiftStack</span>
-              <span className="logo-sub">Solutions</span>
+
+            <div className="col-lg-4 col-md-4 top-social text-center text-md-right">
+              <ul className="list-unstyled">
+                <li>
+                  <a title="Facebook" href="#" aria-label="Facebook">
+                    <span className="social-icon"><i className="fab fa-facebook-f"></i></span>
+                  </a>
+                  <a title="Twitter" href="#" aria-label="Twitter">
+                    <span className="social-icon"><i className="fab fa-twitter"></i></span>
+                  </a>
+                  <a title="LinkedIn" href="#" aria-label="LinkedIn">
+                    <span className="social-icon"><i className="fab fa-linkedin-in"></i></span>
+                  </a>
+                  <a title="GitHub" href="#" aria-label="GitHub">
+                    <span className="social-icon"><i className="fab fa-github"></i></span>
+                  </a>
+                </li>
+              </ul>
             </div>
-          </Link>
-
-          {/* Desktop Nav Links */}
-          <ul className="nav-links" role="list">
-            {NAV_LINKS.map(({ path, label }) => (
-              <li key={path}>
-                <NavLink
-                  to={path}
-                  className={({ isActive }) => `nav-link-item${isActive ? ' active' : ''}`}
-                  end={path === '/'}
-                >
-                  {label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-
-          {/* Language switcher (desktop) */}
-          <button className="nav-lang" aria-label="Switch language" title="Switch language">
-            <i className="bi bi-globe2"></i>
-            EN
-          </button>
-
-          {/* CTA (desktop) */}
-          <Link to="/contact" className="nav-cta">
-            <i className="bi bi-chat-dots" aria-hidden="true"></i>
-            Get In Touch
-          </Link>
-
-          {/* Hamburger (mobile) */}
-          <button
-            className="hamburger"
-            onClick={openDrawer}
-            aria-label="Open navigation menu"
-            aria-expanded={drawerOpen}
-            aria-controls="side-drawer"
-          >
-            <i className="bi bi-list" aria-hidden="true"></i>
-          </button>
+          </div>
         </div>
-      </nav>
+      </div>
 
-      {/* ── Side Drawer (mobile) ── */}
+      {/* ── Main Header ── */}
+      <header id="header" className={`header-one ${scrolled ? 'navbar-fixed' : ''}`}>
+        <div className="bg-white">
+          <div className="container">
+            <div className="logo-area">
+              <div className="row align-items-center">
+                {/* Logo */}
+                <div className="logo col-lg-3 text-center text-lg-left mb-3 mb-md-5 mb-lg-0">
+                  <Link className="d-block" to="/" aria-label="Nairobi 1 — Home">
+                    <img loading="lazy" src={nairobi1Logo} alt="Nairobi 1" style={{ height: '60px', width: 'auto' }} />
+                  </Link>
+                </div>
+
+                {/* Header Right - Info Boxes */}
+                <div className="col-lg-9 header-right">
+                  <ul className="top-info-box">
+                    <li>
+                      <div className="info-box">
+                        <div className="info-box-content">
+                          <p className="info-box-title">Call Us</p>
+                          <p className="info-box-subtitle">+254 700 000 000</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="info-box">
+                        <div className="info-box-content">
+                          <p className="info-box-title">Email Us</p>
+                          <p className="info-box-subtitle">info@nairobi1.com</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="last">
+                      <div className="info-box last">
+                        <div className="info-box-content">
+                          <p className="info-box-title">Global Certificate</p>
+                          <p className="info-box-subtitle">ISO 27001:2022</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li className="header-get-a-quote">
+                      <Link className="btn btn-primary" to="/contact">Get A Quote</Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Navigation ── */}
+        <div className="site-navigation">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-12">
+                <nav className="navbar navbar-expand-lg navbar-dark p-0">
+                  <button 
+                    className="navbar-toggler" 
+                    type="button" 
+                    onClick={openDrawer}
+                    aria-label="Toggle navigation"
+                    aria-expanded={drawerOpen}
+                  >
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+
+                  {/* Desktop Navigation */}
+                  <div id="navbar-collapse" className="collapse navbar-collapse d-none d-lg-block">
+                    <ul className="nav navbar-nav mr-auto">
+                      {NAV_LINKS.map(({ path, label }) => (
+                        <li key={path} className={`nav-item ${pathname === path ? 'active' : ''}`}>
+                          <NavLink 
+                            to={path} 
+                            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                            end={path === '/'}
+                          >
+                            {label}
+                          </NavLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+
+            {/* Search (Theme feature) */}
+            <div className="nav-search">
+              <span id="search"><i className="fa fa-search"></i></span>
+            </div>
+
+            <div className="search-block" style={{ display: 'none' }}>
+              <label htmlFor="search-field" className="w-100 mb-0">
+                <input type="text" className="form-control" id="search-field" placeholder="Type what you want and enter" />
+              </label>
+              <span className="search-close">&times;</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* ── Side Drawer (Mobile) ── */}
       <div
         className={`drawer-overlay${drawerOpen ? ' open' : ''}`}
         onClick={closeDrawer}
@@ -120,11 +213,10 @@ export default function Navbar() {
         <div className="drawer-header">
           <Link to="/" className="drawer-logo" onClick={closeDrawer} aria-label="Home">
             <div className="drawer-logo-icon">
-              <img src={swiftLogo} alt="SwiftStack logo" className="logo-img" />
+              <img src={nairobi1Logo} alt="Nairobi 1" className="logo-img" style={{ height: '45px', width: 'auto' }} />
             </div>
             <div className="drawer-logo-text">
-              <span className="logo-main">SwiftStack</span>
-              <span className="logo-sub">Solutions</span>
+              <span className="logo-main">Nairobi 1</span>
             </div>
           </Link>
 
@@ -181,9 +273,9 @@ export default function Navbar() {
           </Link>
 
           <div className="drawer-contact-info">
-            <a href="mailto:info@swiftstacksolutions.co.ke" onClick={closeDrawer}>
+            <a href="mailto:info@nairobi1.com" onClick={closeDrawer}>
               <i className="bi bi-envelope-fill" aria-hidden="true"></i>
-              info@swiftstacksolutions.co.ke
+              info@nairobi1.com
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noreferrer" onClick={closeDrawer}>
               <i className="bi bi-linkedin" aria-hidden="true"></i>
@@ -192,6 +284,177 @@ export default function Navbar() {
           </div>
         </div>
       </aside>
+
+      {/* ── Custom Styles ── */}
+      <style>{`
+        /* Override theme defaults for your custom styles */
+        .navbar-gov.scrolled {
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-links .nav-link-item.active {
+          color: #ffb600 !important;
+        }
+        .drawer-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          z-index: 1040;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+        }
+        .drawer-overlay.open {
+          opacity: 1;
+          visibility: visible;
+        }
+        .side-drawer {
+          position: fixed;
+          top: 0;
+          right: -320px;
+          width: 300px;
+          height: 100%;
+          background: #fff;
+          z-index: 1050;
+          transition: right 0.3s ease;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        }
+        .side-drawer.open {
+          right: 0;
+        }
+        .drawer-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #eee;
+        }
+        .drawer-logo {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-decoration: none;
+        }
+        .drawer-logo-text .logo-main {
+          font-weight: 700;
+          font-size: 1.1rem;
+          color: #1a3c6e;
+        }
+        .drawer-logo-text .logo-sub {
+          display: block;
+          font-size: 0.7rem;
+          color: #ffb600;
+          letter-spacing: 1px;
+        }
+        .drawer-close {
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #666;
+        }
+        .drawer-nav {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .drawer-section-label {
+          font-size: 0.7rem;
+          text-transform: uppercase;
+          color: #999;
+          letter-spacing: 1px;
+          margin-top: 0.5rem;
+          margin-bottom: 0.25rem;
+          font-weight: 600;
+        }
+        .drawer-link {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.6rem 0.75rem;
+          border-radius: 6px;
+          color: #333;
+          text-decoration: none;
+          transition: all 0.2s;
+          font-weight: 500;
+        }
+        .drawer-link:hover {
+          background: #f5f5f5;
+          color: #1a3c6e;
+        }
+        .drawer-link.active {
+          background: #1a3c6e;
+          color: #fff;
+        }
+        .drawer-link i {
+          font-size: 1.1rem;
+          width: 1.5rem;
+        }
+        .drawer-divider {
+          height: 1px;
+          background: #eee;
+          margin: 0.5rem 0;
+        }
+        .drawer-footer {
+          border-top: 1px solid #eee;
+          padding-top: 1rem;
+          margin-top: auto;
+        }
+        .drawer-cta {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          background: #ffb600;
+          color: #fff;
+          padding: 0.6rem 1rem;
+          border-radius: 6px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.2s;
+        }
+        .drawer-cta:hover {
+          background: #1a3c6e;
+          color: #fff;
+        }
+        .drawer-contact-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+          margin-top: 0.75rem;
+        }
+        .drawer-contact-info a {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #666;
+          text-decoration: none;
+          font-size: 0.85rem;
+        }
+        .drawer-contact-info a:hover {
+          color: #1a3c6e;
+        }
+        /* Mobile responsiveness */
+        @media (max-width: 991px) {
+          .top-info-box li {
+            border: 0;
+            text-align: center;
+            margin: 0;
+            flex: 0 0 50%;
+            padding: 0;
+            margin-top: 10px;
+          }
+        }
+        @media (max-width: 575px) {
+          .top-info-box li {
+            flex: 0 0 100%;
+          }
+        }
+      `}</style>
     </>
   )
 }

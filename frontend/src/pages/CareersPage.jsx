@@ -1,158 +1,169 @@
 // ─────────────────────────────────────────────
-// CareersPage.jsx
+// CareersPage.jsx - Updated with Constra Theme
 // ─────────────────────────────────────────────
-import { useState, useEffect } from 'react'
+
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { careersAPI } from '../services/api'
- 
+
 const DEMO_JOBS = [
-  { id:1, title:'Senior Full-Stack Engineer', job_type:'full_time', level:'senior', location:'Nairobi, Kenya', is_remote:true, salary_min:150000, salary_max:250000, salary_currency:'KES', description:'Build next-gen web platforms.', requirements:'5+ years React & Django\nAWS experience\nStrong problem-solving', deadline:'2024-03-31', slug:'senior-fullstack-engineer' },
-  { id:2, title:'DevOps Engineer', job_type:'full_time', level:'mid', location:'Nairobi, Kenya', is_remote:false, salary_min:120000, salary_max:180000, salary_currency:'KES', description:'Own CI/CD and infrastructure.', requirements:'Kubernetes & Docker\nTerraform experience\nLinux proficiency', deadline:'2024-04-15', slug:'devops-engineer' },
-  { id:3, title:'UI/UX Designer', job_type:'full_time', level:'mid', location:'Remote', is_remote:true, salary_min:80000, salary_max:130000, salary_currency:'KES', description:'Create exceptional user experiences.', requirements:'Figma expertise\nUser research skills\nPortfolio required', deadline:'2024-04-01', slug:'ui-ux-designer' },
-  { id:4, title:'Machine Learning Engineer', job_type:'full_time', level:'senior', location:'Nairobi, Kenya', is_remote:true, salary_min:180000, salary_max:280000, salary_currency:'KES', description:'Build AI products.', requirements:'Python & TensorFlow\nMLOps experience\nPublications a plus', deadline:'2024-05-01', slug:'ml-engineer' },
+  { id:1, title:'Senior Software Engineer', location:'Nairobi, Kenya', type:'Full-time', department:'Engineering', description:'Build enterprise-scale applications using React, Python, and cloud technologies.', posted_date:'2024-09-01' },
+  { id:2, title:'Cloud Solutions Architect', location:'Remote', type:'Full-time', department:'Cloud', description:'Design and implement cloud infrastructure on AWS, Azure, or GCP.', posted_date:'2024-08-28' },
+  { id:3, title:'UX/UI Designer', location:'Nairobi, Kenya', type:'Full-time', department:'Design', description:'Create beautiful, intuitive user experiences for web and mobile applications.', posted_date:'2024-08-25' },
+  { id:4, title:'Machine Learning Engineer', location:'Remote', type:'Contract', department:'AI', description:'Develop and deploy ML models for real-world business applications.', posted_date:'2024-08-20' },
+  { id:5, title:'DevOps Engineer', location:'Nairobi, Kenya', type:'Full-time', department:'Operations', description:'Manage CI/CD pipelines, container orchestration, and infrastructure automation.', posted_date:'2024-08-15' },
+  { id:6, title:'Project Manager', location:'Nairobi, Kenya', type:'Full-time', department:'Management', description:'Lead cross-functional teams to deliver complex software projects on time.', posted_date:'2024-08-10' },
 ]
- 
-export default function  CareersPage() {
+
+const BENEFITS = [
+  { icon: 'fa-graduation-cap', title: 'Learning & Development', desc: 'Continuous learning opportunities and professional development budget.' },
+  { icon: 'fa-heart', title: 'Health Insurance', desc: 'Comprehensive medical cover for you and your family.' },
+  { icon: 'fa-home', title: 'Remote Work', desc: 'Flexible work arrangements and remote-first culture.' },
+  { icon: 'fa-hand-holding-usd', title: 'Competitive Salary', desc: 'Market-leading compensation with regular reviews.' },
+]
+
+// department can come back from the API as either a plain string (demo data)
+// or a nested object { id, name, slug, color_hex } (real API serializer).
+// This normalizes both shapes so we always work with a string.
+function getDepartmentName(department) {
+  if (!department) return null
+  if (typeof department === 'object') return department.name
+  return department
+}
+
+export default function CareersPage() {
   const [jobs, setJobs] = useState([])
-  const [selected, setSelected] = useState(null)
-  const [form, setForm] = useState({ first_name:'', last_name:'', email:'', phone:'', cover_letter:'' })
-  const [submitStatus, setSubmitStatus] = useState(null)
- 
+  const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState('all')
+
   useEffect(() => {
-    careersAPI.getJobs().then(r => setJobs(r.data.results || r.data)).catch(() => setJobs(DEMO_JOBS))
+    careersAPI.getJobs()
+      .then(r => {
+        setJobs(r.data.results || r.data)
+        setLoading(false)
+      })
+      .catch(() => {
+        setJobs(DEMO_JOBS)
+        setLoading(false)
+      })
   }, [])
+
   const data = jobs.length ? jobs : DEMO_JOBS
- 
-  const handleApply = async (e) => {
-    e.preventDefault()
-    setSubmitStatus('loading')
-    setTimeout(() => setSubmitStatus('success'), 1200)
-  }
- 
+  const filtered = filter === 'all'
+    ? data
+    : data.filter(j => getDepartmentName(j.department)?.toLowerCase() === filter)
+  const departments = ['all', ...new Set(data.map(j => getDepartmentName(j.department)?.toLowerCase()).filter(Boolean))]
+
   return (
     <div>
-      <div className="page-header">
-        <div className="container">
-          <span className="section-label">Join Our Team</span>
-          <h1>Careers at SwiftStack</h1>
-          <p>Help us build the future of technology in Africa. We're always looking for talented minds.</p>
+
+      {/* ── Page Banner ── */}
+      <div className="banner-area" style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80)' }}>
+        <div className="banner-text">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="banner-heading">
+                  <h1 className="banner-title">Join Our Team</h1>
+                  <nav aria-label="breadcrumb">
+                    <ol className="breadcrumb justify-content-center">
+                      <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                      <li className="breadcrumb-item active" aria-current="page">Careers</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
- 
-      {/* Culture */}
-      <section className="section-padding" style={{ background:'var(--color-off-white)' }}>
-        <div className="container">
-          <div style={{ textAlign:'center', marginBottom:'2.5rem' }}>
-            <span className="section-label">Why Work With Us</span>
-            <h2 className="section-title">Life at SwiftStack</h2>
-            <div className="gold-divider center"></div>
-          </div>
-          <div className="grid-4">
-            {[['bi-currency-dollar','Competitive Pay','Market-leading salaries + performance bonuses'],
-              ['bi-heart-pulse','Health Benefits','Full medical & dental for you and family'],
-              ['bi-laptop','Remote Friendly','Hybrid and fully remote options available'],
-              ['bi-mortarboard','Learning Budget','KES 100k/year for courses and conferences'],
-            ].map(([icon, title, desc]) => (
-              <div key={title} className="card-gov" style={{ textAlign:'center' }}>
-                <i className={`bi ${icon}`} style={{ fontSize:'2rem', color:'var(--color-navy)', display:'block', marginBottom:'0.75rem' }}></i>
-                <h4 style={{ marginBottom:'0.4rem', fontSize:'0.95rem' }}>{title}</h4>
-                <p style={{ fontSize:'0.82rem', color:'var(--color-dark-gray)' }}>{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
- 
-      {/* Open Positions */}
+
+      {/* ── Benefits ── */}
       <section className="section-padding">
         <div className="container">
-          <h2 className="section-title" style={{ marginBottom:'2rem' }}>
-            <i className="bi bi-briefcase-fill" style={{ color:'var(--color-gold)', marginRight:'0.5rem' }}></i>
-            Open Positions ({data.length})
-          </h2>
-          <div className="jobs-list">
-            {data.map(job => (
-              <div key={job.id} className="job-card">
-                <div className="job-card-header">
-                  <div>
-                    <h3 className="job-card-title">{job.title}</h3>
-                    <div className="job-meta">
-                      <span><i className="bi bi-building"></i> {job.location}</span>
-                      <span><i className="bi bi-clock"></i> {job.job_type?.replace('_',' ')}</span>
-                      <span><i className="bi bi-bar-chart-steps"></i> {job.level}</span>
-                      {job.is_remote && <span className="badge-gov badge-gold"><i className="bi bi-wifi"></i> Remote OK</span>}
-                    </div>
-                  </div>
-                  <div className="job-card-actions">
-                    {job.salary_min && (
-                      <div className="job-salary">
-                        {job.salary_currency} {Number(job.salary_min).toLocaleString()} – {Number(job.salary_max).toLocaleString()}
-                      </div>
-                    )}
-                    <button onClick={() => setSelected(selected?.id === job.id ? null : job)} className="btn-primary-gov" style={{ padding:'0.5rem 1.25rem', fontSize:'0.875rem' }}>
-                      {selected?.id === job.id ? <><i className="bi bi-x"></i> Close</> : <><i className="bi bi-send"></i> Apply Now</>}
-                    </button>
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title">Why Join Us</h2>
+              <h3 className="section-sub-title">Benefits & Perks</h3>
+            </div>
+          </div>
+
+          <div className="row">
+            {BENEFITS.map((benefit, i) => (
+              <div key={i} className="col-lg-3 col-md-6 mb-4">
+                <div className="ts-service-box text-center">
+                  <span className="ts-service-icon">
+                    <i className={`fas ${benefit.icon}`}></i>
+                  </span>
+                  <div className="ts-service-box-content">
+                    <h3 className="service-box-title">{benefit.title}</h3>
+                    <p>{benefit.desc}</p>
                   </div>
                 </div>
-                {/* Inline apply form */}
-                {selected?.id === job.id && (
-                  <div className="job-apply-form">
-                    <h4 style={{ marginBottom:'1.25rem', color:'var(--color-navy)', fontFamily:'var(--font-heading)' }}>
-                      Apply for {job.title}
-                    </h4>
-                    {submitStatus === 'success' ? (
-                      <div className="alert-success"><i className="bi bi-check-circle-fill"></i> Application submitted! We'll be in touch soon.</div>
-                    ) : (
-                      <form onSubmit={handleApply}>
-                        <div className="grid-2" style={{ marginBottom:'1rem' }}>
-                          <div className="form-group">
-                            <label className="form-label-gov">First Name *</label>
-                            <input className="form-input-gov" required value={form.first_name} onChange={e => setForm({...form, first_name:e.target.value})} />
-                          </div>
-                          <div className="form-group">
-                            <label className="form-label-gov">Last Name *</label>
-                            <input className="form-input-gov" required value={form.last_name} onChange={e => setForm({...form, last_name:e.target.value})} />
-                          </div>
-                        </div>
-                        <div className="grid-2" style={{ marginBottom:'1rem' }}>
-                          <div className="form-group">
-                            <label className="form-label-gov">Email *</label>
-                            <input type="email" className="form-input-gov" required value={form.email} onChange={e => setForm({...form, email:e.target.value})} />
-                          </div>
-                          <div className="form-group">
-                            <label className="form-label-gov">Phone</label>
-                            <input className="form-input-gov" value={form.phone} onChange={e => setForm({...form, phone:e.target.value})} />
-                          </div>
-                        </div>
-                        <div className="form-group">
-                          <label className="form-label-gov">Cover Letter *</label>
-                          <textarea className="form-input-gov" required value={form.cover_letter} onChange={e => setForm({...form, cover_letter:e.target.value})} placeholder="Tell us why you're the right fit..." />
-                        </div>
-                        <button type="submit" className="btn-primary-gov" disabled={submitStatus === 'loading'}>
-                          {submitStatus === 'loading' ? <><span className="spinner-gov" style={{ width:16,height:16,borderWidth:2 }}></span> Submitting...</> : <><i className="bi bi-send-fill"></i> Submit Application</>}
-                        </button>
-                      </form>
-                    )}
-                  </div>
-                )}
               </div>
             ))}
           </div>
         </div>
       </section>
-      <style>{`
-        .jobs-list { display:flex; flex-direction:column; gap:1rem; }
-        .job-card { background:var(--color-white); border:1px solid var(--color-light-gray); border-radius:var(--radius-md); overflow:hidden; transition:box-shadow var(--transition-base); }
-        .job-card:hover { box-shadow:var(--shadow-md); }
-        .job-card-header { padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
-        .job-card-title { font-size:1.1rem; margin-bottom:0.4rem; }
-        .job-meta { display:flex; gap:1rem; flex-wrap:wrap; font-size:0.82rem; color:var(--color-mid-gray); align-items:center; }
-        .job-meta span { display:flex; align-items:center; gap:0.3rem; }
-        .job-card-actions { display:flex; flex-direction:column; align-items:flex-end; gap:0.5rem; }
-        .job-salary { font-size:0.82rem; font-weight:700; color:var(--color-navy); }
-        .job-apply-form { padding:2rem; background:var(--color-off-white); border-top:1px solid var(--color-light-gray); }
-      `}</style>
+
+      {/* ── Job Listings ── */}
+      <section className="solid-bg section-padding">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <h3 className="column-title">Open Positions</h3>
+
+              <div className="shuffle-btn-group" style={{ marginBottom: '2rem' }}>
+                {departments.map(dept => (
+                  <label key={dept} className={dept === filter ? 'active' : ''}>
+                    <input 
+                      type="radio" 
+                      name="job-filter" 
+                      value={dept} 
+                      checked={dept === filter}
+                      onChange={() => setFilter(dept)}
+                    />
+                    {dept === 'all' ? 'All Departments' : dept.charAt(0).toUpperCase() + dept.slice(1)}
+                  </label>
+                ))}
+              </div>
+
+              {loading ? (
+                <p>Loading jobs...</p>
+              ) : (
+                filtered.map(job => (
+                  <div key={job.id} className="job-item" style={{ 
+                    background: '#fff', 
+                    padding: '1.5rem', 
+                    marginBottom: '1rem', 
+                    borderRadius: '5px',
+                    borderLeft: '3px solid #ffb600'
+                  }}>
+                    <div className="row align-items-center">
+                      <div className="col-lg-4">
+                        <h4 style={{ margin: 0 }}>{job.title}</h4>
+                        <span style={{ fontSize: '0.85rem', color: '#666' }}>{getDepartmentName(job.department)}</span>
+                      </div>
+                      <div className="col-lg-3">
+                        <i className="fas fa-map-marker-alt" style={{ color: '#ffb600' }}></i> {job.location}
+                      </div>
+                      <div className="col-lg-2">
+                        <span className="badge" style={{ background: '#ffb600', padding: '0.3rem 0.8rem', borderRadius: '20px', color: '#fff' }}>
+                          {job.type}
+                        </span>
+                      </div>
+                      <div className="col-lg-3 text-lg-right">
+                        <Link to="/contact" className="btn btn-primary btn-sm">Apply Now</Link>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
- 
- 

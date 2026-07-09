@@ -1,10 +1,12 @@
+// ─────────────────────────────────────────────
+// HomePage.jsx - Updated with Constra Theme
+// ─────────────────────────────────────────────
+
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import HeroSection from '../components/HeroSection'
 import { ServiceCard, TestimonialCard, StatsBanner } from '../components/Cards'
 import { servicesAPI, testimonialsAPI, statsAPI, portfolioAPI } from '../services/api'
-
-/* ── Demo data (used when API is unavailable) ── */
 
 const DEMO_SERVICES = [
   { id:1, title:'Web Development',      icon_class:'bi-globe2',        short_description:'Enterprise web applications built with React, Vue, and Django for scale and resilience.',    technologies:[] },
@@ -20,15 +22,6 @@ const DEMO_PROJECTS = [
   { id:2, title:'AgriConnect',  client_industry:'AgriTech',   short_description:'End-to-end IoT platform connecting 10,000+ smallholder farmers to commodity markets and weather data.',cover_image:'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=700&q=75', technologies:[] },
   { id:3, title:'HealthHub',    client_industry:'HealthTech', short_description:'Telemedicine, EHR, and appointment management system deployed across a network of 5 regional hospitals.',      cover_image:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&q=75', technologies:[] },
 ]
-
-const WHY_POINTS = [
-  { icon:'bi-award',          title:'ISO 27001 Certified',  desc:'Enterprise-grade information security standards built into every engagement.' },
-  { icon:'bi-clock-history',  title:'97% On-Time Delivery', desc:'Rigorous project governance ensures milestones are hit, consistently.' },
-  { icon:'bi-headset',        title:'24 / 7 Support',       desc:'Round-the-clock technical assistance — from our engineers, not a chatbot.' },
-  { icon:'bi-graph-up-arrow', title:'Scalable Architecture',desc:'Systems designed to grow 10x with your business without a rewrite.' },
-]
-
-/* ── Component ── */
 
 export default function HomePage() {
   const [services,     setServices]     = useState([])
@@ -59,156 +52,298 @@ export default function HomePage() {
       {/* ── Hero Carousel ── */}
       <HeroSection />
 
+      {/* ── Call to Action Box ── */}
+      <section className="call-to-action-box no-padding">
+        <div className="container">
+          <div className="action-style-box">
+            <div className="row align-items-center">
+              <div className="col-md-8 text-center text-md-left">
+                <div className="call-to-action-text">
+                  <h3 className="action-title">We understand your needs on technology</h3>
+                </div>
+              </div>
+              <div className="col-md-4 text-center text-md-right mt-3 mt-md-0">
+                <div className="call-to-action-btn">
+                  <Link className="btn btn-dark" to="/contact">Request Quote</Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Stats Banner ── */}
       <StatsBanner stats={stats} />
 
-      {/* ── Services ── */}
-      <section
-        className="section-padding bg-off-white"
-        aria-labelledby="services-heading"
-      >
+      {/* ── About / Features Section ── */}
+      <section id="ts-features" className="ts-features section-padding">
         <div className="container">
-          <header className="section-header">
-            <span className="section-label">What We Do</span>
-            <h2 className="section-title" id="services-heading">
-              Comprehensive Technology Solutions
-            </h2>
-            <p className="section-subtitle">
-              From ideation to deployment, we deliver end-to-end digital solutions tailored
-              to your business goals and built for the long term.
-            </p>
-            <div className="gold-divider"></div>
-          </header>
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="ts-intro">
+                <h2 className="into-title">About Us</h2>
+                <h3 className="into-sub-title">We deliver landmark projects</h3>
+                <p>
+                  Nairobi 1 builds enterprise-grade software, cloud platforms, and AI systems
+                  that power the next generation of African businesses. Founded in 2016, we've grown from
+                  a 3-person startup to a 45-strong team of world-class engineers.
+                </p>
+              </div>
 
-          <div className="grid-3">
+              <div className="gap-20"></div>
+
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="ts-service-box">
+                    <span className="ts-service-icon">
+                      <i className="fas fa-trophy"></i>
+                    </span>
+                    <div className="ts-service-box-content">
+                      <h3 className="service-box-title">We've Repution for Excellence</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="ts-service-box">
+                    <span className="ts-service-icon">
+                      <i className="fas fa-sliders-h"></i>
+                    </span>
+                    <div className="ts-service-box-content">
+                      <h3 className="service-box-title">We Build Partnerships</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="ts-service-box">
+                    <span className="ts-service-icon">
+                      <i className="fas fa-thumbs-up"></i>
+                    </span>
+                    <div className="ts-service-box-content">
+                      <h3 className="service-box-title">Guided by Commitment</h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="ts-service-box">
+                    <span className="ts-service-icon">
+                      <i className="fas fa-users"></i>
+                    </span>
+                    <div className="ts-service-box-content">
+                      <h3 className="service-box-title">A Team of Professionals</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-6 mt-4 mt-lg-0">
+              <h3 className="into-sub-title">Our Values</h3>
+              <p>
+                We combine deep technical expertise with industry knowledge to deliver solutions
+                that don't just work — they drive measurable, lasting business outcomes.
+              </p>
+
+              <div className="accordion accordion-group" id="our-values-accordion">
+                <div className="card">
+                  <div className="card-header p-0 bg-transparent" id="headingOne">
+                    <h2 className="mb-0">
+                      <button className="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Innovation
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#our-values-accordion">
+                    <div className="card-body">
+                      We embrace cutting-edge technologies and creative problem-solving to deliver future-proof solutions that keep you ahead of the curve.
+                    </div>
+                  </div>
+                </div>
+                <div className="card">
+                  <div className="card-header p-0 bg-transparent" id="headingTwo">
+                    <h2 className="mb-0">
+                      <button className="btn btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Integrity
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#our-values-accordion">
+                    <div className="card-body">
+                      Transparency and honesty in every client engagement, from discovery to delivery and beyond. We do what we say we'll do.
+                    </div>
+                  </div>
+                </div>
+                <div className="card">
+                  <div className="card-header p-0 bg-transparent" id="headingThree">
+                    <h2 className="mb-0">
+                      <button className="btn btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Excellence
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#our-values-accordion">
+                    <div className="card-body">
+                      We hold ourselves to the highest standards, delivering quality that exceeds expectations and solutions that scale with your business.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Services Section ── */}
+      <section id="ts-service-area" className="ts-service-area pb-0 section-padding">
+        <div className="container">
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title">We Are Specialists In</h2>
+              <h3 className="section-sub-title">What We Do</h3>
+            </div>
+          </div>
+
+          <div className="row">
             {displayServices.slice(0, 6).map((s, i) => (
-              <div
-                key={s.id}
-                className="animate-fade-up"
-                style={{ animationDelay: `${i * 0.07}s` }}
-              >
+              <div key={s.id} className="col-lg-4 col-md-6">
                 <ServiceCard service={s} />
               </div>
             ))}
           </div>
 
-          <div style={{ textAlign:'center', marginTop:'3rem' }}>
-            <Link to="/services" className="btn-primary-gov btn-lg">
-              <i className="bi bi-arrow-right-circle" aria-hidden="true"></i>
-              Explore All Services
-            </Link>
+          <div className="general-btn text-center mt-4">
+            <Link className="btn btn-primary" to="/services">View All Services</Link>
           </div>
         </div>
       </section>
 
-      {/* ── Featured Projects ── */}
-      <section className="section-padding" aria-labelledby="projects-heading">
+      {/* ── Projects Section ── */}
+      <section id="project-area" className="project-area solid-bg section-padding">
         <div className="container">
-          <header className="section-header">
-            <span className="section-label">Our Work</span>
-            <h2 className="section-title" id="projects-heading">Featured Projects</h2>
-            <p className="section-subtitle">
-              Real solutions. Real impact. See how we've transformed businesses across Africa
-              and accelerated their digital journeys.
-            </p>
-            <div className="gold-divider"></div>
-          </header>
-
-          <div className="grid-3">
-            {displayProjects.map((p, i) => (
-              <article
-                key={p.id}
-                className="project-card-home animate-fade-up"
-                style={{ animationDelay: `${i * 0.1}s` }}
-              >
-                <div
-                  className="project-card-img"
-                  style={{ backgroundImage:`url(${p.cover_image})` }}
-                  role="img"
-                  aria-label={`${p.title} project cover`}
-                >
-                  <div className="project-industry-badge">{p.client_industry}</div>
-                </div>
-                <div className="project-card-body">
-                  <h3 className="project-card-title">{p.title}</h3>
-                  <p className="project-card-desc">{p.short_description}</p>
-                  <Link to="/portfolio" className="project-card-link">
-                    View Details
-                    <i className="bi bi-arrow-right" aria-hidden="true"></i>
-                  </Link>
-                </div>
-              </article>
-            ))}
+          <div className="row text-center">
+            <div className="col-lg-12">
+              <h2 className="section-title">Work of Excellence</h2>
+              <h3 className="section-sub-title">Recent Projects</h3>
+            </div>
           </div>
 
-          <div style={{ textAlign:'center', marginTop:'3rem' }}>
-            <Link to="/portfolio" className="btn-outline-gov btn-lg">
-              <i className="bi bi-grid-3x3-gap" aria-hidden="true"></i>
-              View Full Portfolio
-            </Link>
-          </div>
-        </div>
-      </section>
+          <div className="row">
+            <div className="col-12">
+              <div className="shuffle-btn-group">
+                <label className="active" htmlFor="all">
+                  <input type="radio" name="shuffle-filter" id="all" value="all" defaultChecked />Show All
+                </label>
+                {['Commercial', 'Education', 'Government', 'Infrastructure', 'Residential', 'Healthcare'].map(cat => (
+                  <label key={cat} htmlFor={cat.toLowerCase()}>
+                    <input type="radio" name="shuffle-filter" id={cat.toLowerCase()} value={cat.toLowerCase()} />{cat}
+                  </label>
+                ))}
+              </div>
 
-      {/* ── Why SwiftStack ── */}
-      <section
-        className="section-padding bg-off-white"
-        aria-labelledby="why-heading"
-        style={{ overflow:'hidden' }}
-      >
-        <div className="container">
-          <div className="why-us-grid">
-
-            {/* Content side */}
-            <div className="animate-slide-in">
-              <span className="section-label">Why SwiftStack</span>
-              <h2 className="section-title" id="why-heading">
-                Built for Impact,<br />Engineered for Scale
-              </h2>
-              <div className="gold-divider"></div>
-              <p className="section-subtitle">
-                We combine deep technical expertise with industry knowledge to deliver solutions
-                that don't just work — they drive measurable, lasting business outcomes.
-              </p>
-
-              <div className="why-us-points">
-                {WHY_POINTS.map(({ icon, title, desc }) => (
-                  <div key={title} className="why-point">
-                    <div className="why-point-icon" aria-hidden="true">
-                      <i className={`bi ${icon}`}></i>
-                    </div>
-                    <div>
-                      <strong>{title}</strong>
-                      <p>{desc}</p>
+              <div className="row shuffle-wrapper">
+                {displayProjects.map((p, i) => (
+                  <div key={p.id} className="col-lg-4 col-md-6 shuffle-item" data-groups='["all"]'>
+                    <div className="project-img-container">
+                      <div className="gallery-popup">
+                        <img className="img-fluid" src={p.cover_image} alt={p.title} />
+                        <span className="gallery-icon"><i className="fa fa-plus"></i></span>
+                      </div>
+                      <div className="project-item-info">
+                        <div className="project-item-info-content">
+                          <h3 className="project-item-title">
+                            <Link to="/portfolio">{p.title}</Link>
+                          </h3>
+                          <p className="project-cat">{p.client_industry}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
 
-              <div style={{ display:'flex', gap:'1rem', flexWrap:'wrap', marginTop:'2rem' }}>
-                <Link to="/about" className="btn-primary-gov">
-                  <i className="bi bi-building" aria-hidden="true"></i>
-                  Learn About Us
-                </Link>
-                <Link to="/contact" className="btn-outline-gov">
-                  <i className="bi bi-chat-dots" aria-hidden="true"></i>
-                  Get In Touch
-                </Link>
+            <div className="col-12">
+              <div className="general-btn text-center">
+                <Link className="btn btn-primary" to="/portfolio">View All Projects</Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials & Clients ── */}
+      <section className="content section-padding">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <h3 className="column-title">Testimonials</h3>
+              <div id="testimonial-slide" className="testimonial-slide">
+                {testimonials.length > 0 ? (
+                  testimonials.slice(0, 3).map((t) => (
+                    <TestimonialCard key={t.id} testimonial={t} />
+                  ))
+                ) : (
+                  <>
+                    <div className="item">
+                      <div className="quote-item">
+                        <span className="quote-text">
+                          Nairobi 1 transformed our entire digital infrastructure. Their team delivered
+                          a scalable solution that has grown with our business.
+                        </span>
+                        <div className="quote-item-footer">
+                          <div className="quote-item-info">
+                            <h3 className="quote-author">John Kamau</h3>
+                            <span className="quote-subtext">CEO, TechVentures</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
-            {/* Image side */}
-            <div className="why-us-image animate-slide-right">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80"
-                alt="SwiftStack team collaborating on a project"
-                loading="lazy"
-              />
-              <div className="why-us-badge" aria-label="Award: Best Tech Firm East Africa 2024">
-                <i className="bi bi-trophy-fill" aria-hidden="true"></i>
-                <div>
-                  <strong>Best Tech Firm</strong>
-                  <span>East Africa 2024</span>
+            <div className="col-lg-6 mt-5 mt-lg-0">
+              <h3 className="column-title">Trusted Partners</h3>
+              <div className="row all-clients">
+                {['KCB Group', 'Safaricom', 'KEMRI', 'KenGen', 'KTDA', 'Nation Media'].map((name, i) => (
+                  <div key={name} className="col-sm-4 col-6">
+                    <figure className="clients-logo">
+                      <a href="#"><span style={{ fontWeight: 700, fontSize: '14px', color: '#333' }}>{name}</span></a>
+                    </figure>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Subscribe / Newsletter ── */}
+      <section className="subscribe no-padding">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-4">
+              <div className="subscribe-call-to-acton">
+                <h3>Can We Help?</h3>
+                <h4>(+254) 700-000-000</h4>
+              </div>
+            </div>
+            <div className="col-lg-8">
+              <div className="ts-newsletter row align-items-center">
+                <div className="col-md-5 newsletter-introtext">
+                  <h4 className="text-white mb-0">Newsletter Sign-up</h4>
+                  <p className="text-white">Latest updates and news</p>
+                </div>
+                <div className="col-md-7 newsletter-form">
+                  <form action="#" method="post">
+                    <div className="form-group">
+                      <label htmlFor="newsletter-email" className="content-hidden">Newsletter Email</label>
+                      <input type="email" name="email" id="newsletter-email" className="form-control form-control-lg" placeholder="Your email and hit enter" autoComplete="off" />
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -216,56 +351,46 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
-      {testimonials.length > 0 && (
-        <section className="section-padding" aria-labelledby="testimonials-heading">
-          <div className="container">
-            <header className="section-header centered">
-              <span className="section-label">Client Testimonials</span>
-              <h2 className="section-title" id="testimonials-heading">
-                What Our Clients Say
-              </h2>
-              <div className="gold-divider center"></div>
-            </header>
-            <div className="grid-3">
-              {testimonials.slice(0, 3).map((t) => (
-                <TestimonialCard key={t.id} testimonial={t} />
-              ))}
+      {/* ── News / Blog Section ── */}
+      <section id="news" className="news section-padding">
+        <div className="container">
+          <div className="row text-center">
+            <div className="col-12">
+              <h2 className="section-title">Latest Insights</h2>
+              <h3 className="section-sub-title">From Our Blog</h3>
             </div>
           </div>
-        </section>
-      )}
 
-      {/* ── Trusted Partners strip ── */}
-      <section className="section-padding-sm bg-off-white" aria-label="Trusted by">
-        <div className="container">
-          <p className="trusted-label">
-            Trusted by Leading Organisations Across Africa
-          </p>
-          <div className="trusted-logos">
-            {['KCB Group','Safaricom','KEMRI','KenGen','KTDA','Nation Media'].map((name) => (
-              <span key={name} className="trusted-logo-name">{name}</span>
+          <div className="row">
+            {[
+              { title: 'We Just Completed $17.6 Million Digital Transformation Project', date: 'July 20, 2024' },
+              { title: 'Thandler Airport Technology Infrastructure Expansion Named', date: 'June 17, 2024' },
+              { title: 'Silicon Bench Begins Construction of Solar Facilities', date: 'Aug 13, 2024' },
+            ].map((post, i) => (
+              <div key={i} className="col-lg-4 col-md-6 mb-4">
+                <div className="latest-post">
+                  <div className="latest-post-media">
+                    <Link to="/blog" className="latest-post-img">
+                      <img loading="lazy" className="img-fluid" src={`https://images.unsplash.com/photo-${i === 0 ? '1497366216548-37526070297c' : i === 1 ? '1531482615713-2afd69097998' : '1517694712202-14dd9538aa97'}?w=500&q=70`} alt="blog" />
+                    </Link>
+                  </div>
+                  <div className="post-body">
+                    <h4 className="post-title">
+                      <Link to="/blog" className="d-inline-block">{post.title}</Link>
+                    </h4>
+                    <div className="latest-post-meta">
+                      <span className="post-item-date">
+                        <i className="fa fa-clock-o"></i> {post.date}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="cta-banner" aria-labelledby="cta-heading">
-        <div className="container cta-content">
-          <div>
-            <h2 id="cta-heading">Ready to Build Something Great?</h2>
-            <p>Let's discuss your project and explore how SwiftStack Solutions can help you scale.</p>
-          </div>
-          <div className="cta-actions">
-            <Link to="/contact" className="btn-gold btn-lg">
-              <i className="bi bi-rocket-takeoff" aria-hidden="true"></i>
-              Start Your Project
-            </Link>
-            <Link to="/careers" className="btn-outline-white btn-lg">
-              <i className="bi bi-person-plus" aria-hidden="true"></i>
-              Join Our Team
-            </Link>
+          <div className="general-btn text-center mt-4">
+            <Link className="btn btn-primary" to="/blog">See All Posts</Link>
           </div>
         </div>
       </section>

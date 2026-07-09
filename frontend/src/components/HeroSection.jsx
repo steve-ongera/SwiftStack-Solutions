@@ -1,146 +1,207 @@
 import { Link } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import useEmblaCarousel from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
+
+const HERO_SLIDES = [
+  {
+    id: 1,
+    background: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1600&q=80',
+    title: '9 Years of excellence in',
+    subTitle: 'Technology & Innovation',
+    cta1: { text: 'Our Services', link: '/services' },
+    cta2: { text: 'Contact Now', link: '/contact' },
+    alignment: 'center'
+  },
+  {
+    id: 2,
+    background: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80',
+    titleBox: 'World Class Service',
+    title: 'When Technology Matters',
+    subTitle: 'Your Choice is Simple',
+    cta1: { text: 'Our Services', link: '/services' },
+    alignment: 'left'
+  },
+  {
+    id: 3,
+    background: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1600&q=80',
+    title: 'Meet Our Engineers',
+    subTitle: 'We believe in innovation',
+    description: 'We will deal with your failure that determines how you achieve success.',
+    cta1: { text: 'Get Free Quote', link: '/contact' },
+    cta2: { text: 'Learn more', link: '/about' },
+    alignment: 'right'
+  }
+]
 
 export default function HeroSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true },
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  )
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const scrollTo = useCallback((i) => emblaApi && emblaApi.scrollTo(i), [emblaApi])
+  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
+  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
+
+  useEffect(() => {
+    if (!emblaApi) return
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap())
+    emblaApi.on('select', onSelect)
+    return () => emblaApi.off('select', onSelect)
+  }, [emblaApi])
+
   return (
-    <section className="hero">
-      {/* Background image via Unsplash */}
-      <div
-        className="hero-bg"
-        style={{
-          backgroundImage:
-            'url(https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=1600&q=80)',
-        }}
-      />
-      <div className="hero-overlay" />
+    <div className="banner-carousel banner-carousel-1 mb-0">
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container">
+          {HERO_SLIDES.map((slide) => (
+            <div className="embla__slide" key={slide.id}>
+              <div
+                className="banner-carousel-item"
+                style={{ backgroundImage: `url(${slide.background})` }}
+              >
+                <div className="slider-content">
+                  <div className="container h-100">
+                    <div className={`row align-items-center h-100 ${
+                      slide.alignment === 'center' ? 'justify-content-center' :
+                      slide.alignment === 'right' ? 'justify-content-end' : ''
+                    }`}>
+                      <div className={`col-md-12 ${
+                        slide.alignment === 'center' ? 'text-center' :
+                        slide.alignment === 'right' ? 'text-right' : 'text-left'
+                      }`}>
 
-      <div className="container hero-content">
-        <div className="hero-badge animate-fade-up">
-          <i className="bi bi-patch-check-fill"></i>
-          Trusted by 150+ enterprises across Africa
-        </div>
-        <h1 className="hero-title animate-fade-up delay-100">
-          Engineering Digital<br />
-          <span className="hero-title-accent">Excellence</span>
-        </h1>
-        <p className="hero-subtitle animate-fade-up delay-200">
-          SwiftStack Solutions builds enterprise-grade software, cloud platforms, and AI systems
-          that power the next generation of African businesses.
-        </p>
-        <div className="hero-actions animate-fade-up delay-300">
-          <Link to="/portfolio" className="btn-gold">
-            <i className="bi bi-briefcase-fill"></i>
-            View Our Work
-          </Link>
-          <Link to="/contact" className="btn-outline-white">
-            <i className="bi bi-telephone-fill"></i>
-            Get a Free Quote
-          </Link>
-        </div>
+                        {slide.titleBox && (
+                          <h2 className="slide-title-box">{slide.titleBox}</h2>
+                        )}
+                        {slide.title && (
+                          <h2 className="slide-title">{slide.title}</h2>
+                        )}
+                        {slide.subTitle && (
+                          <h3 className="slide-sub-title">{slide.subTitle}</h3>
+                        )}
+                        {slide.description && (
+                          <p className="slider-description lead" style={{ color: '#fff', fontSize: '1.2rem' }}>
+                            {slide.description}
+                          </p>
+                        )}
 
-        {/* Floating stats */}
-        <div className="hero-stats animate-fade-up delay-400">
-          {[
-            { value: '150+', label: 'Projects Delivered', icon: 'bi-check-circle-fill' },
-            { value: '80+',  label: 'Happy Clients',      icon: 'bi-people-fill' },
-            { value: '8+',   label: 'Years Experience',   icon: 'bi-calendar-check-fill' },
-            { value: '99%',  label: 'Client Satisfaction', icon: 'bi-star-fill' },
-          ].map(({ value, label, icon }) => (
-            <div key={label} className="hero-stat">
-              <i className={`bi ${icon}`}></i>
-              <div>
-                <div className="hero-stat-value">{value}</div>
-                <div className="hero-stat-label">{label}</div>
+                        <div>
+                          {slide.cta1 && (
+                            <Link
+                              to={slide.cta1.link}
+                              className={`slider btn ${
+                                slide.cta1.text === 'Contact Now' ||
+                                slide.cta1.text === 'Learn more' ?
+                                'btn-primary border' : 'btn-primary'
+                              }`}
+                            >
+                              {slide.cta1.text}
+                            </Link>
+                          )}
+                          {slide.cta2 && (
+                            <Link to={slide.cta2.link} className="slider btn btn-primary border">
+                              {slide.cta2.text}
+                            </Link>
+                          )}
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="hero-scroll">
-        <i className="bi bi-chevron-double-down"></i>
+      {/* Arrows */}
+      <button className="carousel-control left" onClick={scrollPrev}>
+        <i className="fa fa-angle-left"></i>
+      </button>
+      <button className="carousel-control right" onClick={scrollNext}>
+        <i className="fa fa-angle-right"></i>
+      </button>
+
+      {/* Dots */}
+      <div className="slick-dots">
+        {HERO_SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollTo(i)}
+            className={i === selectedIndex ? 'dot active' : 'dot'}
+          />
+        ))}
       </div>
 
       <style>{`
-        .hero {
-          position: relative; min-height: 92vh;
-          display: flex; align-items: center; overflow: hidden;
+        .embla { overflow: hidden; position: relative; }
+        .embla__container { display: flex; }
+        .embla__slide { flex: 0 0 100%; min-width: 0; }
+
+        .banner-carousel .banner-carousel-item {
+          height: 700px;
+          color: #fff;
+          background-position: 50% 50%;
+          background-size: cover;
         }
-        .hero-bg {
-          position: absolute; inset: 0;
-          background-size: cover; background-position: center;
-          background-attachment: fixed;
+        @media (max-width: 991px) { .banner-carousel .banner-carousel-item { height: 550px; } }
+        @media (max-width: 575px) { .banner-carousel .banner-carousel-item { height: 450px; } }
+
+        .slider-content { position: relative; height: 100%; width: 100%; display: flex; align-items: center; }
+        .slide-title-box {
+          font-size: 16px; line-height: 39px; background: #ffb600; color: #fff;
+          display: inline-block; padding: 0 15px; margin: 0 0 10px;
         }
-        .hero-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(17,40,80,0.93) 0%,
-            rgba(26,60,110,0.88) 50%,
-            rgba(26,60,110,0.7) 100%
-          );
+        .slide-title { font-size: 30px; line-height: 36px; font-weight: 300; color: #fff; margin: 20px 0 10px; }
+        @media (max-width: 991px) { .slide-title { font-size: 22px; } }
+        @media (max-width: 575px) { .slide-title { font-size: 16px; } }
+        .slide-sub-title {
+          font-style: normal; font-size: 60px; line-height: 58px; margin: 20px 0;
+          color: #fff; font-weight: 900; text-transform: uppercase; letter-spacing: -1px;
         }
-        .hero-content {
-          position: relative; z-index: 1;
-          padding-top: 3rem; padding-bottom: 5rem;
-          max-width: 780px;
+        @media (max-width: 991px) { .slide-sub-title { font-size: 46px; } }
+        @media (max-width: 575px) { .slide-sub-title { font-size: 30px; line-height: 30px; } }
+
+        .slider.btn {
+          margin: 15px 5px 0; border: 2px solid transparent; padding: 12px 20px 10px;
+          font-weight: 700; text-transform: uppercase; color: #fff;
+          font-family: "Montserrat", sans-serif; transition: 350ms; font-size: 14px;
+          border-radius: 3px; display: inline-block; text-decoration: none;
         }
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 0.5rem;
-          background: rgba(200,168,75,0.2);
-          border: 1px solid rgba(200,168,75,0.4);
-          color: var(--color-gold-light);
-          padding: 0.45rem 1rem; border-radius: 100px;
-          font-size: 0.82rem; font-weight: 600;
-          margin-bottom: 1.5rem; letter-spacing: 0.3px;
+        .slider.btn-primary { background: #ffb600; border: 2px solid #ffb600; }
+        .slider.btn-primary.border { background: transparent; border: 2px solid #ffb600; }
+        .slider.btn-primary:hover { background: #111; border-color: #111; color: #fff; }
+        .slider.btn-primary.border:hover { background: #ffb600; border-color: #ffb600; color: #fff; }
+
+        .banner-carousel .carousel-control {
+          position: absolute; top: 50%; z-index: 5; transform: translateY(-50%);
+          background: transparent; opacity: 0; transition: all .25s ease;
+          padding: 0; outline: 0; border: 0; cursor: pointer;
         }
-        .hero-title {
-          font-family: var(--font-heading);
-          font-size: clamp(2.4rem, 5vw, 4rem);
-          font-weight: 900; color: var(--color-white);
-          line-height: 1.15; margin-bottom: 1.5rem;
+        .banner-carousel:hover .carousel-control { opacity: 1; }
+        .banner-carousel .carousel-control.left { left: 20px; }
+        .banner-carousel .carousel-control.right { right: 20px; }
+        .banner-carousel .carousel-control i {
+          background: rgba(0,0,0,0.3); color: #fff; line-height: 58px;
+          width: 60px; height: 60px; font-size: 22px; display: inline-block; text-align: center;
         }
-        .hero-title-accent { color: var(--color-gold); }
-        .hero-subtitle {
-          color: rgba(255,255,255,0.8); font-size: 1.15rem;
-          line-height: 1.75; margin-bottom: 2.5rem; max-width: 600px;
+        .banner-carousel .carousel-control i:hover { background: #ffb600; }
+
+        .slick-dots {
+          position: absolute; bottom: 20px; left: 0; right: 0;
+          display: flex; justify-content: center; gap: 8px; list-style: none; padding: 0;
         }
-        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
-        .btn-outline-white {
-          background: transparent; border: 2px solid rgba(255,255,255,0.6);
-          color: var(--color-white); padding: 0.75rem 2rem;
-          border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 600;
-          text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
-          transition: all var(--transition-base);
+        .slick-dots .dot {
+          width: 10px; height: 10px; border-radius: 50%; border: none;
+          background: rgba(255,255,255,0.5); cursor: pointer; padding: 0;
         }
-        .btn-outline-white:hover {
-          background: rgba(255,255,255,0.1); border-color: var(--color-white);
-        }
-        .hero-stats {
-          display: flex; gap: 2rem; flex-wrap: wrap;
-          padding-top: 2rem;
-          border-top: 1px solid rgba(255,255,255,0.15);
-        }
-        .hero-stat {
-          display: flex; align-items: center; gap: 0.75rem;
-        }
-        .hero-stat i { font-size: 1.4rem; color: var(--color-gold); }
-        .hero-stat-value {
-          font-family: var(--font-heading); font-size: 1.5rem;
-          font-weight: 700; color: var(--color-white); line-height: 1;
-        }
-        .hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 2px; }
-        .hero-scroll {
-          position: absolute; bottom: 2rem; left: 50%;
-          transform: translateX(-50%);
-          color: rgba(255,255,255,0.4); font-size: 1.1rem;
-          animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50%       { transform: translateX(-50%) translateY(8px); }
-        }
+        .slick-dots .dot.active { background: #ffb600; }
+        @media (max-width: 575px) { .banner-carousel .carousel-control { display: none !important; } }
       `}</style>
-    </section>
+    </div>
   )
 }
