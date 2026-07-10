@@ -123,17 +123,6 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="col-md-12">
-              <div className="footer-menu text-center">
-                <ul className="list-unstyled mb-0">
-                  {FOOTER_LINKS.map(({ to, label }) => (
-                    <li key={to}>
-                      <Link to={to}>{label}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </div>
 
           {/* ── Back to Top Button ── */}
@@ -207,14 +196,14 @@ export default function Footer() {
         .copyright {
           background: #ffb600;
           color: #111;
-          padding: 25px 0;
+          padding: 15px 0;
           position: relative;
           z-index: 1;
           font-weight: 600;
           font-size: 12px;
         }
         .copyright-info {
-          margin-bottom: 10px;
+          margin-bottom: 5px;
         }
         .footer-menu ul li {
           display: inline-block;

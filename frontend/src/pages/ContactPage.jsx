@@ -72,7 +72,7 @@ export default function ContactPage() {
                 </span>
                 <div className="ts-service-box-content">
                   <h3 className="service-box-title">Phone</h3>
-                  <p><a href="tel:+254700000000" style={{ color: 'inherit' }}>+254 700 000 000</a></p>
+                  <p><a href="tel:+254700000000" style={{ color: 'inherit' }}>+254 757 790 687</a></p>
                 </div>
               </div>
             </div>

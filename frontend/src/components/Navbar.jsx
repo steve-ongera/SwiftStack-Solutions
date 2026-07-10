@@ -63,7 +63,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <i className="fas fa-phone"></i>
-                  <p className="info-text">+254 700 000 000</p>
+                  <p className="info-text">+254 757 790 687</p>
                 </li>
                 <li>
                   <i className="fas fa-envelope"></i>
@@ -134,7 +134,7 @@ export default function Navbar() {
                       <div className="info-box">
                         <div className="info-box-content">
                           <p className="info-box-title">Call Us</p>
-                          <p className="info-box-subtitle">+254 700 000 000</p>
+                          <p className="info-box-subtitle">+254 757 790 687</p>
                         </div>
                       </div>
                     </li>
@@ -270,7 +270,7 @@ export default function Navbar() {
 
           <a href="tel:+254700000000" className="drawer-link" onClick={closeDrawer}>
             <i className="bi bi-telephone" aria-hidden="true"></i>
-            +254 700 000 000
+            +254 757 790 687
           </a>
         </nav>
 

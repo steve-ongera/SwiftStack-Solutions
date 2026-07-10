@@ -8,10 +8,10 @@ import { Helmet } from 'react-helmet-async'
 import { teamAPI } from '../services/api'
 
 const DEMO_TEAM = [
-  { id:1, full_name:'Dr. Amara Okonkwo', job_title:'Chief Executive Officer', is_leadership:true, bio:'15+ years in enterprise software.', photo:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=70' },
-  { id:2, full_name:'Fatima Al-Hassan', job_title:'Chief Technology Officer', is_leadership:true, bio:'Former Google engineer, AI specialist.', photo:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=70' },
-  { id:3, full_name:'James Mwangi', job_title:'Head of Engineering', is_leadership:true, bio:'AWS certified solutions architect.', photo:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=70' },
-  { id:4, full_name:'Amina Diallo', job_title:'Head of Design', is_leadership:true, bio:'UX leader with 10 years experience.', photo:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=70' },
+  { id:1, full_name:'Dr. Amara Okonkwo', job_title:'Chief Executive Officer', is_leadership:true, bio:'15+ years in enterprise software.', photo:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80' },
+  { id:2, full_name:'Fatima Al-Hassan', job_title:'Chief Technology Officer', is_leadership:true, bio:'Former Google engineer, AI specialist.', photo:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80' },
+  { id:3, full_name:'James Mwangi', job_title:'Head of Engineering', is_leadership:true, bio:'AWS certified solutions architect.', photo:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80' },
+  { id:4, full_name:'Amina Diallo', job_title:'Head of Design', is_leadership:true, bio:'UX leader with 10 years experience.', photo:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80' },
 ]
 
 // ── SEO Data ──
@@ -154,7 +154,7 @@ export default function AboutPage() {
               </div>
               <div className="col-lg-6 mt-4 mt-lg-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80" 
+                  src="https://static.wixstatic.com/media/3288de_6a26461c4db74c4c8cfef10bf07b8ece~mv2.png/v1/fill/w_1694,h_1194,al_c,q_95,usm_0.66_1.00_0.01,enc_avif,quality_auto/Africa%20parts.png" 
                   alt="Nairobi 1 team" 
                   className="img-fluid rounded"
                 />
@@ -213,11 +213,37 @@ export default function AboutPage() {
               {displayTeam.map(m => (
                 <div key={m.id} className="col-lg-3 col-md-6 mb-4">
                   <div className="ts-team-wrapper">
-                    <div className="ts-team-img">
+                    <div className="ts-team-img" style={{ 
+                      position: 'relative', 
+                      overflow: 'hidden',
+                      width: '100%',
+                      aspectRatio: '3/4',
+                      background: '#1a3c6e'
+                    }}>
                       {m.photo ? (
-                        <img loading="lazy" className="img-fluid" src={m.photo} alt={m.full_name} />
+                        <img 
+                          loading="lazy" 
+                          className="img-fluid" 
+                          src={m.photo} 
+                          alt={m.full_name}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block'
+                          }}
+                        />
                       ) : (
-                        <div style={{ height: '280px', background: '#1a3c6e', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffb600', fontSize: '4rem', fontWeight: 700 }}>
+                        <div style={{ 
+                          height: '100%', 
+                          width: '100%',
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          color: '#ffb600', 
+                          fontSize: '5rem', 
+                          fontWeight: 700 
+                        }}>
                           {m.full_name[0]}
                         </div>
                       )}

@@ -18,11 +18,20 @@ const DEMO_PROJECTS = [
 export default function PortfolioPage() {
   const [projects, setProjects] = useState([])
   const [filter, setFilter] = useState('all')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     portfolioAPI.getAll()
-      .then(r => setProjects(r.data.results || r.data))
-      .catch(() => setProjects(DEMO_PROJECTS))
+      .then(r => {
+        const data = r.data.results || r.data || []
+        setProjects(data)
+        setLoading(false)
+      })
+      .catch(() => {
+        setProjects(DEMO_PROJECTS)
+        setLoading(false)
+      })
   }, [])
 
   const data = projects.length ? projects : DEMO_PROJECTS
@@ -66,7 +75,7 @@ export default function PortfolioPage() {
 
           <div className="row">
             <div className="col-12">
-              <div className="shuffle-btn-group">
+              <div className="shuffle-btn-group" style={{ marginBottom: '40px' }}>
                 {categories.map(cat => (
                   <label key={cat} className={cat === filter ? 'active' : ''}>
                     <input 
@@ -81,27 +90,142 @@ export default function PortfolioPage() {
                 ))}
               </div>
 
-              <div className="row shuffle-wrapper">
-                {filtered.map(p => (
-                  <div key={p.id} className="col-lg-4 col-md-6 shuffle-item">
-                    <div className="project-img-container">
-                      <div className="gallery-popup">
-                        <img className="img-fluid" src={p.cover_image} alt={p.title} />
-                        <span className="gallery-icon"><i className="fa fa-plus"></i></span>
-                      </div>
-                      <div className="project-item-info">
-                        <div className="project-item-info-content">
-                          <h3 className="project-item-title">
-                            <Link to="/portfolio">{p.title}</Link>
-                          </h3>
-                          <p className="project-cat">{p.client_industry}</p>
-                          <p style={{ color: '#fff', fontSize: '0.85rem' }}>{p.short_description}</p>
+              {loading ? (
+                <div className="text-center py-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <p className="mt-3">Loading projects...</p>
+                </div>
+              ) : (
+                <div className="row shuffle-wrapper" style={{ rowGap: '32px' }}>
+                  {filtered.length === 0 ? (
+                    <div className="col-12 text-center py-5">
+                      <p>No projects found for this category.</p>
+                    </div>
+                  ) : (
+                    filtered.map(p => (
+                      <div key={p.id} className="col-lg-4 col-md-6 shuffle-item mb-4">
+                        <div
+                          className="project-card"
+                          style={{
+                            background: '#fff',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
+                            height: '100%',
+                            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                            marginRight: '12px',
+                            cursor: 'pointer',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-5px)'
+                            e.currentTarget.style.boxShadow = '0 10px 40px rgba(0,0,0,0.12)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.boxShadow = '0 2px 20px rgba(0,0,0,0.08)'
+                          }}
+                        >
+                          {/* ── Fixed size image container ── */}
+                          <div style={{ 
+                            position: 'relative',
+                            width: '100%',
+                            aspectRatio: '4/3',
+                            overflow: 'hidden',
+                            background: '#f0f0f0'
+                          }}>
+                            {p.cover_image ? (
+                              <img 
+                                className="img-fluid" 
+                                src={p.cover_image} 
+                                alt={p.title}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectFit: 'cover',
+                                  display: 'block',
+                                  transition: 'transform 0.6s ease',
+                                
+                                }}
+                                onError={(e) => {
+                                  e.target.style.display = 'none'
+                                  e.target.parentElement.querySelector('.no-image-placeholder').style.display = 'flex'
+                                }}
+                              />
+                            ) : null}
+                            {/* ── No Image Placeholder ── */}
+                            <div className="no-image-placeholder" style={{
+                              display: p.cover_image ? 'none' : 'flex',
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              width: '100%',
+                              height: '100%',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              background: 'linear-gradient(135deg, #1a3c6e 0%, #2a5a8f 100%)',
+                              color: '#fff',
+                              textAlign: 'center',
+                              padding: '20px'
+                            }}>
+                              <i className="fas fa-image" style={{ fontSize: '3rem', marginBottom: '15px', opacity: 0.5 }}></i>
+                              <span style={{ fontWeight: '600', fontSize: '1rem' }}>No Image Available</span>
+                              <span style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '5px' }}>{p.title}</span>
+                            </div>
+                            <span className="gallery-icon" style={{
+                              position: 'absolute',
+                              top: '10px',
+                              right: '10px',
+                              padding: '8px 12px',
+                              background: '#ffb600',
+                              color: '#fff',
+                              borderRadius: '4px',
+                              zIndex: 2,
+                              fontSize: '14px'
+                            }}>
+                              <i className="fa fa-plus"></i>
+                            </span>
+                          </div>
+
+                          {/* ── Text content, now outside the image and clearly spaced ── */}
+                          <div style={{ padding: '20px 24px 24px' }}>
+                            <h3 style={{
+                              fontSize: '1.1rem',
+                              fontWeight: '700',
+                              marginBottom: '6px',
+                              color: '#1a1d1f'
+                            }}>
+                              <Link to={`/portfolio/${p.id}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                                {p.title}
+                              </Link>
+                            </h3>
+                            <p style={{
+                              color: '#ffb600',
+                              fontSize: '0.75rem',
+                              fontWeight: '700',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px',
+                              marginBottom: '12px'
+                            }}>
+                              {p.client_industry || 'General'}
+                            </p>
+                            <p style={{
+                              color: '#5b5f63',
+                              fontSize: '0.9rem',
+                              lineHeight: '1.6',
+                              margin: 0
+                            }}>
+                              {p.short_description || 'No description available'}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    ))
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
